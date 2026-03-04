@@ -175,7 +175,7 @@ export default function GitHubDashboard() {
                     aria-hidden="true"
                     className="absolute -top-[7vw] -left-4 z-0 pointer-events-none select-none"
                 >
-                    <span className="text-[18vw] sm:text-[14vw] md:text-[11vw] lg:text-[10vw] font-display font-black uppercase tracking-tighter leading-none text-[var(--text-primary)] opacity-[0.18] dark:opacity-[0.12] whitespace-nowrap">
+                    <span className="text-[14vw] sm:text-[12vw] md:text-[11vw] lg:text-[10vw] font-display font-black uppercase tracking-tighter leading-none text-[var(--text-primary)] opacity-[0.18] dark:opacity-[0.12] whitespace-nowrap">
                         GitHub
                     </span>
                 </motion.div>

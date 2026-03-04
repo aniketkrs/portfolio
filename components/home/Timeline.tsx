@@ -55,10 +55,10 @@ export default function Timeline() {
             <div className="sticky top-0 h-screen w-full flex items-center overflow-hidden">
                 {/* Background Typography */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center select-none pointer-events-none z-0 overflow-hidden">
-                    <span className="text-[25vw] sm:text-[20vw] md:text-[18vw] lg:text-[20vw] font-display font-black uppercase tracking-tighter leading-none text-center text-[var(--text-primary)] opacity-30 dark:opacity-10 transition-all duration-300">
+                    <span className="text-[22vw] sm:text-[18vw] md:text-[16vw] lg:text-[17vw] font-display font-black uppercase tracking-tighter leading-none text-center text-[var(--text-primary)] opacity-30 dark:opacity-10 transition-all duration-300">
                         Career
                     </span>
-                    <span className="text-[25vw] sm:text-[20vw] md:text-[18vw] lg:text-[20vw] font-display font-black uppercase tracking-tighter leading-none text-center text-[var(--text-primary)] opacity-30 dark:opacity-10 transition-all duration-300">
+                    <span className="text-[22vw] sm:text-[18vw] md:text-[16vw] lg:text-[17vw] font-display font-black uppercase tracking-tighter leading-none text-center text-[var(--text-primary)] opacity-30 dark:opacity-10 transition-all duration-300">
                         Path
                     </span>
                 </div>

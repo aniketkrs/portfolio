@@ -106,7 +106,7 @@ export default function PMToolkit() {
 
             {/* MASSIVE BACKGROUND TYPOGRAPHY */}
             <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none select-none z-0 opacity-[0.12] dark:opacity-[0.15]">
-                <span className="text-[6vw] md:text-[5vw] lg:text-[6vw] font-display font-black uppercase tracking-tighter leading-none text-[var(--text-primary)]">
+                <span className="text-[9vw] sm:text-[8vw] md:text-[7vw] lg:text-[6vw] font-display font-black uppercase tracking-tighter leading-none text-[var(--text-primary)]">
                     TOOLKIT
                 </span>
             </div>
