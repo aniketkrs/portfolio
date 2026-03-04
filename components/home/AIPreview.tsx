@@ -1,95 +1,144 @@
 "use client";
 
-import Link from "next/link";
-import { motion } from "framer-motion";
-import { ArrowRight, Zap, ExternalLink } from "lucide-react";
-import { aiProducts } from "@/data/content";
+import { motion, useInView } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
+import { Play, Volume2, ArrowUpRight, Layers } from "lucide-react";
 
-export default function AIPreview() {
-    const featured = aiProducts.slice(0, 2);
+const labProjects = [
+    {
+        title: "Sonic Latent-D",
+        description: "Real-time synthesis of spatial audio from latent encodings.",
+        tags: ["Audio ML", "WebAudio", "Latent Space"],
+        status: "LIVE",
+        hasWaveform: true,
+    },
+    {
+        title: "Abstract Ethos",
+        description: "Generative art engine powered by ethical AI constraints.",
+        tags: ["GenAI", "Canvas", "Ethics"],
+        status: "BETA",
+    },
+    {
+        title: "Contextual OS",
+        description: "Ambient context engine merging calendar, location, and intent.",
+        tags: ["Context API", "LLM", "Agents"],
+        status: "ALPHA",
+    },
+    {
+        title: "Neural Ambient",
+        description: "Environment-aware noise cancellation using edge neural processing.",
+        tags: ["Edge ML", "AudioDSP", "WASM"],
+        status: "BUILD",
+    },
+];
+
+function WaveformBars() {
+    const [heights, setHeights] = useState<number[]>(
+        Array.from({ length: 24 }, () => Math.random() * 80 + 20)
+    );
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setHeights(Array.from({ length: 24 }, () => Math.random() * 80 + 20));
+        }, 300);
+        return () => clearInterval(interval);
+    }, []);
 
     return (
-        <section
-            className="section-container"
-            id="ai"
-            aria-labelledby="ai-heading"
-            style={{ background: "linear-gradient(to bottom, var(--bg), var(--bg-surface))" }}
-        >
-            <div className="flex items-end justify-between mb-12">
-                <div>
-                    <div className="text-label mb-3" style={{ color: "var(--electric)" }}>
+        <div className="wave-container h-24">
+            {heights.map((h, i) => (
+                <div
+                    key={i}
+                    className="wave-bar"
+                    style={{
+                        height: `${h}%`,
+                        transition: "height 0.3s ease",
+                        animationDelay: `${i * 0.05}s`,
+                    }}
+                />
+            ))}
+        </div>
+    );
+}
+
+export default function AIPreview() {
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+    return (
+        <section ref={ref} className="px-5 md:px-8 lg:px-16 py-16 md:py-20 max-w-7xl mx-auto">
+            {/* Header */}
+            <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.7 }}
+                className="flex items-center justify-between mb-12"
+            >
+                <div className="flex items-center gap-3">
+                    <Layers className="w-5 h-5 text-primary" />
+                    <h2 className="text-lg font-bold tracking-tighter uppercase">
                         AI Playground
-                    </div>
-                    <h2 id="ai-heading" className="text-display-lg font-display">
-                        I don't just brief AI — I ship it
                     </h2>
-                    <p className="text-body-md mt-3 max-w-xl" style={{ color: "var(--text-secondary)" }}>
-                        Live AI products I've personally built: RAG systems, LLM tooling, and semantic search at scale.
-                    </p>
                 </div>
-                <Link
-                    href="/ai"
-                    className="hidden md:flex items-center gap-1 text-sm font-semibold hover:opacity-80 transition-opacity"
-                    style={{ color: "var(--electric)" }}
-                >
-                    View AI Playground <ArrowRight size={16} aria-hidden="true" />
-                </Link>
-            </div>
+                <span className="chip chip-primary">
+                    Experimental
+                </span>
+            </motion.div>
 
-            <div className="grid md:grid-cols-2 gap-6">
-                {featured.map((product, i) => (
+            {/* 2x2 Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                {labProjects.map((project, i) => (
                     <motion.div
-                        key={product.slug}
-                        initial={{ opacity: 0, y: 24 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5, delay: i * 0.1 }}
+                        key={project.title}
+                        initial={{ opacity: 0, y: 40, scale: 0.96 }}
+                        animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+                        transition={{
+                            duration: 0.7,
+                            delay: 0.15 + i * 0.12,
+                            ease: [0.23, 1, 0.32, 1],
+                        }}
+                        className="project-card p-8 md:p-10 flex flex-col gap-6 group"
                     >
-                        <Link href={`/ai/${product.slug}`} className="card block p-7 group h-full" aria-label={product.name}>
-                            {/* Status + name */}
-                            <div className="flex items-center justify-between mb-4">
-                                <div className="flex items-center gap-2">
-                                    <span className="live-dot" aria-hidden="true" />
-                                    <span className="text-xs font-bold" style={{ color: "var(--teal)" }}>
-                                        {product.status.toUpperCase()}
-                                    </span>
-                                </div>
-                                <ExternalLink size={16} style={{ color: "var(--text-muted)" }} aria-hidden="true" />
+                        {/* Header */}
+                        <div className="flex items-start justify-between">
+                            <div>
+                                <span
+                                    className={`text-[10px] font-bold tracking-widest uppercase ${project.status === "LIVE"
+                                        ? "text-green-400"
+                                        : project.status === "BETA"
+                                            ? "text-yellow-400"
+                                            : "text-[var(--text-muted)]"
+                                        }`}
+                                >
+                                    {project.status}
+                                </span>
+                                <h3 className="text-2xl md:text-3xl font-bold mt-2 tracking-tight">
+                                    {project.title}
+                                </h3>
                             </div>
+                            <ArrowUpRight className="w-5 h-5 text-[var(--text-muted)] group-hover:text-primary group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+                        </div>
 
-                            <h3 className="text-heading-xl font-heading mb-2 group-hover:text-text-primary transition-colors">
-                                {product.name}
-                            </h3>
-                            <p className="text-body-sm mb-5" style={{ color: "var(--accent-light)" }}>
-                                {product.tagline}
-                            </p>
-                            <p className="text-body-sm mb-6" style={{ color: "var(--text-secondary)" }}>
-                                {product.summary}
-                            </p>
+                        {/* Waveform or Spacer */}
+                        {project.hasWaveform ? (
+                            <WaveformBars />
+                        ) : (
+                            <div className="h-24 rounded-2xl bg-gradient-to-br from-primary/5 to-transparent" />
+                        )}
 
-                            {/* Metrics */}
-                            {product.metrics && (
-                                <div className="grid grid-cols-3 gap-3 mb-5">
-                                    {product.metrics.map((m) => (
-                                        <div key={m.label} className="text-center">
-                                            <div className="metric-number" style={{ fontSize: "1.25rem" }}>
-                                                {m.value}
-                                            </div>
-                                            <div className="metric-label">{m.label}</div>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
+                        {/* Description */}
+                        <p className="text-[var(--text-muted)] text-sm leading-relaxed">
+                            {project.description}
+                        </p>
 
-                            {/* Stack chips */}
-                            <div className="flex flex-wrap gap-1.5">
-                                {product.stack.slice(0, 4).map((tech) => (
-                                    <span key={tech} className="chip chip-electric">
-                                        {tech}
-                                    </span>
-                                ))}
-                            </div>
-                        </Link>
+                        {/* Tags */}
+                        <div className="flex flex-wrap gap-2 mt-auto">
+                            {project.tags.map((tag) => (
+                                <span key={tag} className="chip text-[10px]">
+                                    {tag}
+                                </span>
+                            ))}
+                        </div>
                     </motion.div>
                 ))}
             </div>

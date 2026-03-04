@@ -1,57 +1,73 @@
+"use client";
+
+import dynamic from "next/dynamic";
+import { Suspense } from "react";
 import Hero from "@/components/home/Hero";
 import CompanyLogos from "@/components/home/CompanyLogos";
-import WorkHighlights from "@/components/home/WorkHighlights";
+import PMToolkit from "@/components/home/PMToolkit";
 import ImpactNumbers from "@/components/home/ImpactNumbers";
-import AIPreview from "@/components/home/AIPreview";
-import Timeline from "@/components/home/Timeline";
+
+import GitHubDashboard from "@/components/home/GitHubDashboard";
 import Testimonials from "@/components/home/Testimonials";
 import Contact from "@/components/home/Contact";
-import type { Metadata } from "next";
+import WorkHighlights from "@/components/home/WorkHighlights"; // Added back based on the trailing part
 
-export const metadata: Metadata = {
-    title: "Alex Morgan — Senior Product Manager",
-    description: "Senior PM shipping AI, platform & consumer products at scale. 8+ years, 8M+ users, $40M+ ARR driven.",
-};
+// We dynamically import complex animation timeline components with SSR false
+// to avoid React hydration mismatches on mobile vs desktop.
+const BookGallery = dynamic(() => import("@/components/home/BookGallery"), { ssr: false });
+const ArticlesPreview = dynamic(() => import("@/components/home/ArticlesPreview"), { ssr: false });
+const Timeline = dynamic(() => import("@/components/home/Timeline"), { ssr: false });
+const AILabSection = dynamic(() => import("@/components/home/AILabSection"), { ssr: false });
 
-export default function HomePage() {
+export default function Home() {
     return (
-        <>
+        <main className="min-h-screen bg-[var(--background)] selection:bg-primary/30 selection:text-primary">
+            {/* 1. Hero — first impression, photo + name */}
             <Hero />
 
-            {/* Divider */}
+            {/* 2. Social proof — logos build credibility immediately */}
+            {/* <div className="section-divider" /> */}
+            {/* <CompanyLogos /> */}
+
+            {/* 3. PM Toolkit — tools I ship with */}
             <div className="section-divider" />
+            <PMToolkit />
 
-            <CompanyLogos />
-
-            {/* Divider */}
+            {/* 4. Work — show don't tell, bento grid of projects */}
             <div className="section-divider" />
-
             <WorkHighlights />
 
-            {/* Divider */}
+            {/* 5. Impact Numbers — quantify the results */}
             <div className="section-divider" />
-
-            <AIPreview />
-
-            {/* Divider */}
-            <div className="section-divider" />
-
             <ImpactNumbers />
 
-            {/* Divider */}
+            {/* 6. AI Lab — experimental/creative side */}
             <div className="section-divider" />
+            <AILabSection />
 
+            {/* 7. GitHub Dashboard — technical credibility */}
+            <div className="section-divider" />
+            <GitHubDashboard />
+
+            {/* 8. Timeline — career journey for context */}
+            <div className="section-divider" />
             <Timeline />
 
-            {/* Divider */}
+            {/* 9. Testimonials — peer validation */}
             <div className="section-divider" />
-
             <Testimonials />
 
-            {/* Divider */}
+            {/* 10. Book Gallery — scrollable 3D interactive */}
             <div className="section-divider" />
+            <BookGallery />
 
+            {/* 11. Articles — latest writing */}
+            <div className="section-divider" />
+            <ArticlesPreview />
+
+            {/* 12. Contact — final CTA */}
+            <div className="section-divider" />
             <Contact />
-        </>
+        </main>
     );
 }

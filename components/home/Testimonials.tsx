@@ -1,106 +1,94 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
-import { testimonials } from "@/data/content";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+import { Quote } from "lucide-react";
+
+const testimonials = [
+    {
+        quote: "Aniket has the rare ability to see both the macro product vision and the micro engineering constraints simultaneously. His work on the checkout platform was transformative.",
+        name: "Sarah Chen",
+        role: "VP Engineering, FinTech Global",
+    },
+    {
+        quote: "Working with Aniket was a masterclass in product thinking. He turned ambiguous market signals into a razor-sharp roadmap that delivered 3x our expected outcomes.",
+        name: "Marcus Hayes",
+        role: "CEO, DataPulse Analytics",
+    },
+    {
+        quote: "Aniket doesn't just build products — he builds systems that scale. His infrastructure decisions at CloudScale are still paying dividends two years later.",
+        name: "Priya Sharma",
+        role: "CTO, CloudScale Systems",
+    },
+];
 
 export default function Testimonials() {
-    const [index, setIndex] = useState(0);
-    const current = testimonials[index];
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+    // Duplicate testimonials for infinite scroll effect
+    const rollingTestimonials = [...testimonials, ...testimonials];
 
     return (
-        <section className="section-container" aria-labelledby="testimonials-heading">
-            <div className="text-label mb-3 text-center">Testimonials</div>
-            <h2 id="testimonials-heading" className="text-display-lg font-display text-center mb-12">
-                What people say
-            </h2>
-
-            <div className="max-w-3xl mx-auto">
-                {/* Quote card */}
-                <div className="card p-10 relative">
-                    {/* Big quote mark */}
-                    <div
-                        className="font-display text-8xl leading-none mb-4 select-none"
-                        style={{ color: "var(--accent)", opacity: 0.4 }}
-                        aria-hidden="true"
-                    >
-                        "
+        <section ref={ref} data-section="testimonials" className="py-16 md:py-24 overflow-hidden">
+            <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.7 }}
+                className="max-w-7xl mx-auto px-5 md:px-8 lg:px-16"
+            >
+                {/* Header */}
+                <div className="flex flex-col items-center mb-12 text-center">
+                    <div className="text-[10px] font-bold tracking-[0.3em] uppercase text-primary mb-3">
+                        Testimonials
                     </div>
+                    <h2 className="text-2xl md:text-4xl font-bold tracking-tight mb-4">
+                        What People Say
+                    </h2>
+                    <p className="text-[var(--text-muted)] max-w-xl text-base md:text-lg">
+                        I've had the pleasure of working with some amazing people across the industry. Hover over any card to pause and read.
+                    </p>
+                </div>
+            </motion.div>
 
-                    <AnimatePresence mode="wait">
-                        <motion.div
-                            key={index}
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -10 }}
-                            transition={{ duration: 0.3 }}
+            {/* Marquee */}
+            <div className="marquee-fade overflow-hidden">
+                <div
+                    className="flex marquee-track w-max gap-4 md:gap-6 py-6"
+                    style={{ animationDuration: "50s" }}
+                >
+                    {rollingTestimonials.map((t, i) => (
+                        <div
+                            key={i}
+                            className="bento-card bg-[var(--surface)] border border-[var(--border)] rounded-2xl px-8 py-10 w-[320px] md:w-[420px] flex-shrink-0 flex flex-col justify-between hover:bg-[var(--surface-hover)] transition-colors duration-300 group"
                         >
-                            <blockquote
-                                className="text-body-lg italic mb-8"
-                                style={{ color: "var(--text-primary)" }}
-                            >
-                                {current.quote}
-                            </blockquote>
-
-                            <div className="flex items-center gap-4">
+                            <div>
+                                <Quote
+                                    size={36}
+                                    className="text-[var(--border)] mb-6 group-hover:text-primary transition-colors duration-300"
+                                    fill="currentColor"
+                                />
+                                <blockquote className="text-base md:text-lg font-light leading-relaxed tracking-tight mb-8 text-[var(--text-secondary)] group-hover:text-[var(--text-primary)] transition-colors duration-300">
+                                    &ldquo;{t.quote}&rdquo;
+                                </blockquote>
+                            </div>
+                            <div className="mt-auto flex items-center gap-4">
                                 <div
-                                    className="w-12 h-12 rounded-full flex items-center justify-center text-lg font-bold"
-                                    style={{ background: "rgba(232,168,56,0.15)", color: "var(--accent)" }}
+                                    className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm"
+                                    style={{ background: "rgba(232,168,56,0.1)", color: "var(--primary)" }}
                                     aria-hidden="true"
                                 >
-                                    {current.name[0]}
+                                    {t.name[0]}
                                 </div>
                                 <div>
-                                    <div className="font-semibold" style={{ color: "var(--text-primary)" }}>
-                                        {current.name}
-                                    </div>
-                                    <div className="text-body-sm" style={{ color: "var(--text-muted)" }}>
-                                        {current.role} · {current.company}
-                                    </div>
+                                    <p className="text-sm font-bold text-[var(--text-primary)]">{t.name}</p>
+                                    <p className="text-xs text-[var(--text-muted)] font-mono tracking-wide mt-0.5">
+                                        {t.role}
+                                    </p>
                                 </div>
                             </div>
-                        </motion.div>
-                    </AnimatePresence>
-                </div>
-
-                {/* Navigation */}
-                <div className="flex items-center justify-center gap-4 mt-6">
-                    <button
-                        onClick={() => setIndex((i) => (i - 1 + testimonials.length) % testimonials.length)}
-                        className="p-2 rounded-full transition-all duration-200"
-                        style={{ border: "1px solid var(--border)", color: "var(--text-secondary)" }}
-                        aria-label="Previous testimonial"
-                    >
-                        <ChevronLeft size={20} />
-                    </button>
-
-                    {/* Dots */}
-                    <div className="flex gap-2" role="tablist" aria-label="Testimonial navigation">
-                        {testimonials.map((_, i) => (
-                            <button
-                                key={i}
-                                onClick={() => setIndex(i)}
-                                role="tab"
-                                aria-selected={i === index}
-                                aria-label={`Testimonial ${i + 1}`}
-                                className="w-2 h-2 rounded-full transition-all duration-200"
-                                style={{
-                                    background: i === index ? "var(--accent)" : "var(--border)",
-                                    transform: i === index ? "scale(1.4)" : "scale(1)",
-                                }}
-                            />
-                        ))}
-                    </div>
-
-                    <button
-                        onClick={() => setIndex((i) => (i + 1) % testimonials.length)}
-                        className="p-2 rounded-full transition-all duration-200"
-                        style={{ border: "1px solid var(--border)", color: "var(--text-secondary)" }}
-                        aria-label="Next testimonial"
-                    >
-                        <ChevronRight size={20} />
-                    </button>
+                        </div>
+                    ))}
                 </div>
             </div>
         </section>

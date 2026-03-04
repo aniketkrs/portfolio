@@ -1,122 +1,137 @@
 "use client";
 
-import Link from "next/link";
-import { Github, Linkedin, Twitter, Mail, ArrowUpRight } from "lucide-react";
-
-const footerLinks = {
-    Navigation: [
-        { label: "Home", href: "/" },
-        { label: "Work", href: "/work" },
-        { label: "AI Playground", href: "/ai" },
-        { label: "Writing", href: "/articles" },
-        { label: "Bookshelf", href: "/bookshelf" },
-        { label: "About", href: "/about" },
-        { label: "Tools", href: "/tools" },
-        { label: "Achievements", href: "/achievements" },
-    ],
-    Connect: [
-        { label: "Email", href: "mailto:hello@alexmorgan.pm", external: true },
-        { label: "LinkedIn", href: "https://linkedin.com/in/alexmorgan", external: true },
-        { label: "Twitter / X", href: "https://twitter.com/alexmorgan_pm", external: true },
-        { label: "GitHub", href: "https://github.com/alexmorgan", external: true },
-        { label: "Book a call", href: "https://cal.com/alexmorgan", external: true },
-    ],
-};
+import { motion } from "framer-motion";
+import { useInView } from "framer-motion";
+import { useRef } from "react";
+import { ArrowUpRight } from "lucide-react";
 
 const socialLinks = [
-    { href: "https://github.com/alexmorgan", label: "GitHub", icon: Github },
-    { href: "https://linkedin.com/in/alexmorgan", label: "LinkedIn", icon: Linkedin },
-    { href: "https://twitter.com/alexmorgan_pm", label: "Twitter", icon: Twitter },
-    { href: "mailto:hello@alexmorgan.pm", label: "Email", icon: Mail },
+    { label: "LINKEDIN", href: "#" },
+    { label: "TWITTER / X", href: "#" },
+    { label: "SUBSTACK", href: "#" },
+    { label: "READ.CV", href: "#" },
 ];
 
 export default function Footer() {
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: true, margin: "-100px" });
+
     return (
-        <footer
-            className="border-t"
-            style={{ borderColor: "var(--border)", background: "var(--bg-surface)" }}
-            role="contentinfo"
-        >
-            <div className="max-w-6xl mx-auto px-6 py-16">
-                {/* Main Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-                    {/* Brand Column */}
-                    <div className="md:col-span-2">
-                        <div className="text-display-lg font-display mb-4">
-                            <span style={{ color: "var(--accent)" }}>Alex</span> Morgan
-                        </div>
-                        <p className="text-body-md mb-6 max-w-sm" style={{ color: "var(--text-secondary)" }}>
-                            Senior Product Manager. I ship AI products, grow platforms, and build things people love to use.
-                        </p>
-                        <div className="flex items-center gap-2">
-                            <span className="live-dot" aria-hidden="true" />
-                            <span className="text-body-sm" style={{ color: "var(--teal)" }}>
-                                Open to new opportunities
-                            </span>
+        <footer ref={ref} id="contact" data-section="contact" className="relative px-5 md:px-8 lg:px-16 pt-16 md:pt-24 pb-40 max-w-7xl mx-auto">
+            {/* Heading */}
+            <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
+                className="mb-16"
+            >
+                <h2 className="text-3xl md:text-6xl lg:text-8xl font-black tracking-tighter leading-none max-w-4xl">
+                    LET&apos;S BUILD THE{" "}
+                    <span className="text-primary italic">NEXT BIG THING.</span>
+                </h2>
+            </motion.div>
+
+            {/* Grid: Photo + Form */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+                {/* Left: Intro */}
+                <motion.div
+                    initial={{ opacity: 0, x: -30 }}
+                    animate={isInView ? { opacity: 1, x: 0 } : {}}
+                    transition={{ duration: 0.8, delay: 0.2 }}
+                    className="lg:col-span-5"
+                >
+                    <div className="rounded-3xl overflow-hidden aspect-[4/5] bg-[var(--bg-surface)] border border-[var(--border)]">
+                        <div className="w-full h-full bg-gradient-to-br from-primary/10 via-transparent to-primary/5 flex items-center justify-center">
+                            <span className="text-8xl font-black text-primary/20">AK</span>
                         </div>
                     </div>
-
-                    {/* Link columns */}
-                    {Object.entries(footerLinks).map(([title, links]) => (
-                        <div key={title}>
-                            <div className="text-label mb-5">{title}</div>
-                            <ul className="space-y-3">
-                                {links.map((link) => (
-                                    <li key={link.label}>
-                                        <Link
-                                            href={link.href}
-                                            target={"external" in link && link.external ? "_blank" : undefined}
-                                            rel={"external" in link && link.external ? "noopener noreferrer" : undefined}
-                                            className="flex items-center gap-1 text-body-sm transition-colors duration-200 hover:text-text-primary"
-                                            style={{ color: "var(--text-secondary)" }}
-                                        >
-                                            {link.label}
-                                            {"external" in link && link.external && (
-                                                <ArrowUpRight size={12} aria-hidden="true" />
-                                            )}
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    ))}
-                </div>
-
-                {/* Bottom Bar */}
-                <div
-                    className="flex flex-col md:flex-row justify-between items-center gap-4 pt-8 border-t"
-                    style={{ borderColor: "var(--border)" }}
-                >
-                    <p className="text-body-sm" style={{ color: "var(--text-muted)" }}>
-                        © {new Date().getFullYear()} Alex Morgan. Built with Next.js & love.
+                    <p className="mt-6 text-[var(--text-muted)] text-lg max-w-md leading-relaxed">
+                        Based in India. Senior Product Manager focused on scaling complex systems and building
+                        intuitive human interfaces. Currently open to new challenges.
                     </p>
+                </motion.div>
 
-                    {/* Social Icons */}
-                    <div className="flex items-center gap-3">
-                        {socialLinks.map(({ href, label, icon: Icon }) => (
-                            <a
-                                key={href}
-                                href={href}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                aria-label={label}
-                                className="p-2 rounded-full transition-all duration-200"
-                                style={{ color: "var(--text-muted)", border: "1px solid var(--border)" }}
-                                onMouseEnter={(e) => {
-                                    (e.currentTarget as HTMLElement).style.color = "var(--accent)";
-                                    (e.currentTarget as HTMLElement).style.borderColor = "var(--accent)";
-                                }}
-                                onMouseLeave={(e) => {
-                                    (e.currentTarget as HTMLElement).style.color = "var(--text-muted)";
-                                    (e.currentTarget as HTMLElement).style.borderColor = "var(--border)";
-                                }}
+                {/* Right: Contact Form */}
+                <motion.div
+                    initial={{ opacity: 0, x: 30 }}
+                    animate={isInView ? { opacity: 1, x: 0 } : {}}
+                    transition={{ duration: 0.8, delay: 0.3 }}
+                    className="lg:col-span-6 lg:col-start-7 py-4"
+                >
+                    <form className="space-y-10" onSubmit={(e) => e.preventDefault()}>
+                        <div>
+                            <label className="font-mono text-primary text-xs uppercase tracking-widest block mb-2">
+                                Full Name
+                            </label>
+                            <input
+                                type="text"
+                                className="form-input-clean text-xl md:text-2xl font-medium"
+                                placeholder="Your name here"
+                            />
+                        </div>
+                        <div>
+                            <label className="font-mono text-primary text-xs uppercase tracking-widest block mb-2">
+                                Email Address
+                            </label>
+                            <input
+                                type="email"
+                                className="form-input-clean text-xl md:text-2xl font-medium"
+                                placeholder="hello@world.com"
+                            />
+                        </div>
+                        <div>
+                            <label className="font-mono text-primary text-xs uppercase tracking-widest block mb-2">
+                                Project Brief
+                            </label>
+                            <textarea
+                                className="form-input-clean text-xl md:text-2xl font-medium resize-none"
+                                placeholder="Tell me about your project"
+                                rows={4}
+                            />
+                        </div>
+                        <div className="pt-4">
+                            <button
+                                type="submit"
+                                className="bg-primary text-white font-black uppercase text-sm tracking-widest px-10 py-5 rounded-full hover:bg-primary-light transition-all duration-300 transform hover:scale-[1.02] active:scale-95"
                             >
-                                <Icon size={16} aria-hidden="true" />
+                                Send Message
+                            </button>
+                        </div>
+                    </form>
+
+                    {/* Social Links */}
+                    <div className="mt-20 pt-8 border-t border-[var(--border)] flex flex-wrap gap-8">
+                        {socialLinks.map(({ label, href }) => (
+                            <a
+                                key={label}
+                                href={href}
+                                className="font-mono text-primary text-sm tracking-widest hover:text-[var(--text-primary)] transition-colors duration-300 flex items-center gap-1 group"
+                            >
+                                {label}
+                                <ArrowUpRight
+                                    size={12}
+                                    className="opacity-0 group-hover:opacity-100 transition-opacity"
+                                />
                             </a>
                         ))}
                     </div>
-                </div>
+                </motion.div>
             </div>
+
+            {/* Bottom tag */}
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={isInView ? { opacity: 1 } : {}}
+                transition={{ delay: 0.8 }}
+                className="mt-24 text-center"
+            >
+                <span className="inline-block px-6 py-2 border border-[var(--border)] rounded-full font-mono text-[10px] uppercase tracking-[0.3em] text-[var(--text-muted)]">
+                    Built for high-impact product leadership &middot; &copy; 2026
+                </span>
+            </motion.div>
+
+            {/* Ambient glow */}
+            <div className="ambient-glow ambient-glow-primary w-[500px] h-[500px] -bottom-[20%] -right-[10%] absolute" />
         </footer>
     );
 }

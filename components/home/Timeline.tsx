@@ -1,123 +1,140 @@
 "use client";
 
-import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 
-const timelineEvents = [
+const entries = [
     {
         year: "2024",
-        role: "Senior PM — AI Products",
-        company: "TechScale Inc.",
-        bullets: ["Led AI search rebuild — +41% conversion", "Shipped v2 recommendation engine in 6 months", "Grew MAU from 2.1M to 3.2M"],
+        role: "Senior Product Manager",
+        company: "FinTech Global",
+        description: "Led cross-functional teams of 40+ to rebuild the global checkout platform, processing $1.2B+ annually. Reduced page load to 0.4s.",
+        tags: ["Payments", "Infrastructure", "Scale"],
+        metrics: ["$1.2B Processed", "0.4s Load Time", "84% Conversion"],
     },
     {
         year: "2022",
-        role: "Senior PM — Platform",
-        company: "FinTech Corp",
-        bullets: ["Rebuilt payments infra — ↓67% failed txns", "Led 3-squad organisation of 22 people", "First PM promoted to Group PM in the org"],
+        role: "Product Manager II",
+        company: "CloudScale Systems",
+        description: "Drove the merchant onboarding platform revamp, achieving 30% faster activation through ML-driven risk scoring and workflow automation.",
+        tags: ["ML", "Onboarding", "Automation"],
+        metrics: ["30% Faster Activation", "99.9% Accuracy"],
     },
     {
-        year: "2021",
-        role: "Group PM — Growth",
-        company: "GrowthOS",
-        bullets: ["Designed PLG loops — activation 23% → 67%", "Reduced CAC 40% via product-led referral", "Managed 2 PMs and 2 squads"],
+        year: "2020",
+        role: "Product Manager",
+        company: "DataPulse Analytics",
+        description: "Built the real-time analytics dashboard used by 5M+ daily users. Increased retention by 15% through personalized data storytelling.",
+        tags: ["Analytics", "Retention", "UX"],
+        metrics: ["5M+ Users", "15% Retention Lift"],
     },
     {
-        year: "2019",
-        role: "Lead PM — 0 to 1",
-        company: "MindfulCo",
-        bullets: ["Built wellness app from zero — 400K downloads", "Top-5 Health & Fitness in 8 months", "Hired and built entire product team"],
-    },
-    {
-        year: "2017",
+        year: "2018",
         role: "Associate PM",
-        company: "StartupLab",
-        bullets: ["First PM role — consumer mobile", "Launched iOS app with 50K+ users", "Built data analytics function from scratch"],
+        company: "NeuralPath AI",
+        description: "First PM hire. Established product development processes from 0→1. Shipped the core conversational AI engine used across 3 product lines.",
+        tags: ["0→1", "AI", "Conversational"],
+        metrics: ["3 Product Lines", "0→1 Build"],
     },
 ];
 
 export default function Timeline() {
-    const ref = useRef<HTMLDivElement>(null);
+    const targetRef = useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({
-        target: ref,
-        offset: ["start center", "end center"],
+        target: targetRef,
     });
-    const lineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+
+    // We have 4 entries. To scroll them horizontally across the screen,
+    // we map scrollYProgress [0, 1] to an x percentage. 
+    // We adjust the scroll distance so it travels further on mobile vs desktop
+    // We use a -90% or so value instead of -100% to keep the last card somewhat visible at the end of the scroll
+    const x = useTransform(scrollYProgress, [0, 1], ["0%", "-95%"]);
 
     return (
-        <section className="section-container" id="timeline" aria-labelledby="timeline-heading" ref={ref}>
-            <div className="text-center mb-16">
-                <div className="text-label mb-3">Career Journey</div>
-                <h2 id="timeline-heading" className="text-display-lg font-display">
-                    The path that led here
-                </h2>
-            </div>
-
-            <div className="relative max-w-3xl mx-auto">
-                {/* Background line */}
-                <div
-                    className="absolute left-6 md:left-1/2 top-0 bottom-0 w-px -translate-x-1/2"
-                    style={{ background: "var(--border)" }}
-                    aria-hidden="true"
-                />
-
-                {/* Animated fill line */}
-                <motion.div
-                    className="absolute left-6 md:left-1/2 top-0 w-px origin-top -translate-x-1/2"
-                    style={{ height: lineHeight, background: "var(--accent)" }}
-                    aria-hidden="true"
-                />
-
-                {/* Events */}
-                <div className="space-y-12">
-                    {timelineEvents.map((event, i) => (
-                        <motion.div
-                            key={event.year}
-                            initial={{ opacity: 0, x: i % 2 === 0 ? -30 : 30 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5, delay: 0.1 }}
-                            className={`relative flex gap-8 ${i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"} pl-14 md:pl-0`}
-                        >
-                            {/* Dot */}
-                            <div
-                                className="absolute left-4 md:left-1/2 w-5 h-5 rounded-full -translate-x-1/2 flex items-center justify-center z-10"
-                                style={{ background: "var(--accent)", top: "4px" }}
-                                aria-hidden="true"
-                            >
-                                <div className="w-2 h-2 rounded-full" style={{ background: "var(--bg)" }} />
-                            </div>
-
-                            {/* Content */}
-                            <div className={`card p-6 md:w-[calc(50%-24px)] ${i % 2 === 0 ? "md:mr-auto" : "md:ml-auto"}`}>
-                                <div className="flex items-center gap-2 mb-2">
-                                    <span
-                                        className="font-mono text-xs font-bold px-2 py-1 rounded"
-                                        style={{ background: "rgba(232,168,56,0.1)", color: "var(--accent)" }}
-                                    >
-                                        {event.year}
-                                    </span>
-                                </div>
-                                <h3 className="text-heading-lg font-heading mb-1">{event.role}</h3>
-                                <p className="text-sm mb-4" style={{ color: "var(--accent)" }}>
-                                    {event.company}
-                                </p>
-                                <ul className="space-y-1">
-                                    {event.bullets.map((b) => (
-                                        <li
-                                            key={b}
-                                            className="text-body-sm flex items-start gap-2"
-                                            style={{ color: "var(--text-secondary)" }}
-                                        >
-                                            <span style={{ color: "var(--accent)" }}>·</span>
-                                            {b}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        </motion.div>
-                    ))}
+        <section ref={targetRef} className="h-[400vh] relative bg-[var(--background)]">
+            <div className="sticky top-0 h-screen w-full flex items-center overflow-hidden">
+                {/* Background Typography */}
+                <div className="absolute inset-0 flex flex-col items-center justify-center select-none pointer-events-none z-0 overflow-hidden">
+                    <span className="text-[25vw] sm:text-[20vw] md:text-[18vw] lg:text-[20vw] font-display font-black uppercase tracking-tighter leading-none text-center text-[var(--text-primary)] opacity-30 dark:opacity-10 transition-all duration-300">
+                        Career
+                    </span>
+                    <span className="text-[25vw] sm:text-[20vw] md:text-[18vw] lg:text-[20vw] font-display font-black uppercase tracking-tighter leading-none text-center text-[var(--text-primary)] opacity-30 dark:opacity-10 transition-all duration-300">
+                        Path
+                    </span>
                 </div>
+
+                {/* Horizontal Scroll Container (All Breakpoints) */}
+                <motion.div
+                    style={{ x }}
+                    className="flex flex-row gap-8 md:gap-16 px-6 md:px-[10vw] z-10 w-max will-change-transform items-center"
+                >
+                    {/* Intro Spacer Screen - Keeps the cards off-screen initially so the user just sees "CAREER PATH" */}
+                    <div className="w-[100vw] flex-shrink-0" />
+
+                    {entries.map((entry, idx) => {
+                        // Stagger the vertical placement slightly for a dynamic rhythm
+                        const isEven = idx % 2 === 0;
+
+                        return (
+                            <div
+                                key={entry.year}
+                                className={`w-[85vw] md:w-[60vw] lg:w-[45vw] max-w-2xl flex-shrink-0 flex flex-col justify-center ${isEven ? "mt-[-5vh] md:mt-[-20vh]" : "mt-[5vh] md:mt-[20vh]"
+                                    }`}
+                            >
+                                {/* FAT DESIGN CARD - APPLE DARK GLASS EFFECT */}
+                                <div className="bg-white/5 dark:bg-black/40 backdrop-blur-3xl border-[3px] md:border-[5px] border-white/20 dark:border-white/10 rounded-[2rem] md:rounded-[3rem] p-6 sm:p-8 md:p-12 shadow-[0_8px_32px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:border-white/30 hover:bg-white/10 dark:hover:bg-black/60 transition-all duration-500 overflow-hidden relative group">
+
+                                    {/* Massive Year Watermark inside Card */}
+                                    <div className="absolute top-0 right-[-5%] text-[10rem] md:text-[20rem] font-black font-mono text-[var(--text-primary)] opacity-5 tracking-tighter leading-none select-none pointer-events-none z-0 transition-opacity duration-500 group-hover:opacity-10">
+                                        {entry.year.slice(2)}
+                                    </div>
+
+                                    <div className="relative z-10 flex flex-col h-full">
+                                        <div className="flex flex-wrap items-center gap-3 md:gap-4 mb-6 md:mb-8">
+                                            <span className="px-4 py-2 md:px-6 md:py-3 bg-primary text-black font-black text-sm md:text-lg uppercase tracking-widest rounded-full shadow-[3px_3px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.2)]">
+                                                {entry.year}
+                                            </span>
+                                            <span className="font-mono text-[10px] md:text-sm font-bold tracking-widest uppercase text-[var(--text-muted)]">
+                                                {entry.company}
+                                            </span>
+                                        </div>
+
+                                        <h3 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-black tracking-tighter text-[var(--text-primary)] leading-[1.1] mb-4 md:mb-8">
+                                            {entry.role}
+                                        </h3>
+
+                                        <p className="text-sm sm:text-base md:text-2xl text-[var(--text-secondary)] font-medium leading-relaxed mb-8 md:mb-12">
+                                            {entry.description}
+                                        </p>
+
+                                        <div className="mt-auto space-y-6 md:space-y-8">
+                                            {/* Tags area */}
+                                            <div className="flex flex-wrap gap-2 md:gap-3">
+                                                {entry.tags.map((tag) => (
+                                                    <span key={tag} className="px-3 py-1.5 md:px-4 md:py-2 border-2 border-[var(--border)] rounded-full text-[9px] md:text-xs font-black uppercase tracking-widest bg-[var(--background)]">
+                                                        {tag}
+                                                    </span>
+                                                ))}
+                                            </div>
+
+                                            {/* Metrics area with massive emphasis */}
+                                            <div className="pt-4 md:pt-8 border-t-[3px] md:border-t-4 border-[var(--border)] flex flex-wrap gap-4 md:gap-10">
+                                                {entry.metrics.map((m) => (
+                                                    <span
+                                                        key={m}
+                                                        className="text-base md:text-2xl font-black tracking-tight text-primary whitespace-nowrap"
+                                                    >
+                                                        {m}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                    })}
+                </motion.div>
             </div>
         </section>
     );

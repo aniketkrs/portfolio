@@ -3,6 +3,8 @@ import { projects } from "@/data/content";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Clock, Users, Calendar, Building } from "lucide-react";
+import AudioSummary from "@/components/ui/AudioSummary";
+import ProductMockups from "@/components/ui/ProductMockups";
 
 type Props = {
     params: { slug: string };
@@ -40,16 +42,18 @@ export default function CaseStudyPage({ params }: Props) {
 
                 {/* Hero */}
                 <div className="mb-12">
-                    {/* Domain chip */}
                     <div className="chip chip-amber mb-4">{project.domain}</div>
 
                     <h1 className="text-display-xl font-display mb-4">{project.title}</h1>
-                    <p className="text-body-lg mb-8 max-w-2xl" style={{ color: "var(--text-secondary)" }}>
+                    <p className="text-body-lg mb-6 max-w-2xl" style={{ color: "var(--text-secondary)" }}>
                         {project.summary}
                     </p>
 
+                    {/* Audio Summary */}
+                    <AudioSummary text={`${project.title}. ${project.summary}. Key outcomes: ${project.outcomes.map(o => `${o.metric}: ${o.value}`).join(". ")}.`} />
+
                     {/* Outcome pills */}
-                    <div className="flex flex-wrap gap-3 mb-8">
+                    <div className="flex flex-wrap gap-3 mb-8 mt-6">
                         {project.outcomes.map((o) => (
                             <div
                                 key={o.metric}
@@ -97,12 +101,10 @@ export default function CaseStudyPage({ params }: Props) {
                     }}
                 >
                     <div className="text-label mb-3">TL;DR</div>
-                    <p className="text-body-md font-medium">
-                        {project.summary}
-                    </p>
+                    <p className="text-body-md font-medium">{project.summary}</p>
                 </div>
 
-                {/* Case Study Zones (placeholder content for demo) */}
+                {/* Case Study Zones */}
                 {[
                     {
                         label: "Context & Problem",
@@ -124,6 +126,23 @@ export default function CaseStudyPage({ params }: Props) {
                         heading: "How we shipped iteratively without losing quality",
                         content: `We broke the solution into three phases with clear exit criteria for each. Phase 1 was a lean MVP to validate the core hypothesis. Phase 2 added the features that mattered most to high-value users. Phase 3 was performance, polish, and scale. Each phase had a dedicated review, a metrics checkpoint, and a go/no-go gate.`,
                     },
+                ].map((section, i) => (
+                    <section key={section.label} className="mb-12" aria-labelledby={`zone-${i}`}>
+                        <div className="text-label mb-2">{section.label}</div>
+                        <h2 id={`zone-${i}`} className="text-heading-xl font-heading mb-4">
+                            {section.heading}
+                        </h2>
+                        <p className="text-body-md max-w-2xl" style={{ color: "var(--text-secondary)", lineHeight: "1.8" }}>
+                            {section.content}
+                        </p>
+                    </section>
+                ))}
+
+                {/* Product Mockups */}
+                <ProductMockups title={project.title} />
+
+                {/* Results & Impact */}
+                {[
                     {
                         label: "Results & Impact",
                         heading: "What happened when it shipped",
@@ -135,9 +154,9 @@ export default function CaseStudyPage({ params }: Props) {
                         content: `I would have involved engineering leads earlier in the discovery phase — their constraint knowledge would have changed our solution framing. I'm also proud of protecting scope in the face of stakeholder pressure to expand, and of the process documentation that's now used to onboard new team members. This project hardened my belief that the best product outcomes come from relentless prioritisation, not comprehensive solutions.`,
                     },
                 ].map((section, i) => (
-                    <section key={section.label} className="mb-12" aria-labelledby={`zone-${i}`}>
+                    <section key={section.label} className="mb-12" aria-labelledby={`zone-post-${i}`}>
                         <div className="text-label mb-2">{section.label}</div>
-                        <h2 id={`zone-${i}`} className="text-heading-xl font-heading mb-4">
+                        <h2 id={`zone-post-${i}`} className="text-heading-xl font-heading mb-4">
                             {section.heading}
                         </h2>
                         <p className="text-body-md max-w-2xl" style={{ color: "var(--text-secondary)", lineHeight: "1.8" }}>
