@@ -74,7 +74,7 @@ export default function ImpactNumbers() {
                     animate={isInView ? { opacity: 1 } : {}}
                     transition={{ duration: 1, delay: 0.3 }}
                     aria-hidden="true"
-                    className="absolute -top-[5vw] -left-4 z-0 pointer-events-none select-none"
+                    className="absolute -top-[7vw] -left-4 z-0 pointer-events-none select-none"
                 >
                     <span className="text-[18vw] sm:text-[14vw] md:text-[11vw] lg:text-[10vw] font-display font-black uppercase tracking-tighter leading-none text-[var(--text-primary)] opacity-[0.18] dark:opacity-[0.12] whitespace-nowrap">
                         Impact
