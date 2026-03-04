@@ -65,35 +65,38 @@ export default function ImpactNumbers() {
 
     return (
         <section ref={ref} className="px-8 lg:px-16 py-20 max-w-7xl mx-auto">
+            {/* Wrapper — relative so the Impact word and grid can be layered */}
+            <div className="relative">
 
-            {/* Stat Grid wrapper — relative so the Impact label can be positioned inside */}
-            <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.7, delay: 0.2 }}
-                className="relative grid grid-cols-2 md:grid-cols-3 border border-[var(--border)] rounded-card overflow-hidden"
-            >
-                {/* "Impact" label — top-left corner, blurs grid content behind it */}
+                {/* "Impact" word — z-0, behind the grid. Peeks out from top-left edge */}
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={isInView ? { opacity: 1 } : {}}
-                    transition={{ duration: 1, delay: 0.4 }}
+                    transition={{ duration: 1, delay: 0.3 }}
                     aria-hidden="true"
-                    className="absolute top-0 left-0 z-20 pointer-events-none select-none backdrop-blur-md px-4 py-2 rounded-br-2xl"
+                    className="absolute -top-10 -left-4 z-0 pointer-events-none select-none"
                 >
-                    <span className="text-[10vw] sm:text-[8vw] md:text-[6vw] lg:text-[5vw] font-display font-black uppercase tracking-tighter leading-none text-[var(--text-primary)] opacity-20 dark:opacity-10 whitespace-nowrap">
+                    <span className="text-[18vw] sm:text-[14vw] md:text-[11vw] lg:text-[10vw] font-display font-black uppercase tracking-tighter leading-none text-[var(--text-primary)] opacity-[0.07] dark:opacity-[0.04] whitespace-nowrap">
                         Impact
                     </span>
                 </motion.div>
 
-                {stats.map((stat) => (
-                    <AnimatedStat
-                        key={stat.label}
-                        {...stat}
-                        isInView={isInView}
-                    />
-                ))}
-            </motion.div>
+                {/* Stats grid — z-10, sits on top and overlays the word behind it */}
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.7, delay: 0.2 }}
+                    className="relative z-10 grid grid-cols-2 md:grid-cols-3 border border-[var(--border)] rounded-card overflow-hidden"
+                >
+                    {stats.map((stat) => (
+                        <AnimatedStat
+                            key={stat.label}
+                            {...stat}
+                            isInView={isInView}
+                        />
+                    ))}
+                </motion.div>
+            </div>
         </section>
     );
 }
