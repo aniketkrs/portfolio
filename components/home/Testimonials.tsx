@@ -47,7 +47,7 @@ export default function Testimonials() {
                     {rollingTestimonials.map((t, i) => (
                         <div
                             key={i}
-                            className="bento-card bg-[var(--surface)] border border-[var(--border)] rounded-2xl px-8 py-10 w-[320px] md:w-[420px] flex-shrink-0 flex flex-col justify-between hover:bg-[var(--surface-hover)] transition-colors duration-300 group"
+                            className="bento-card !bg-white/60 dark:!bg-black/40 backdrop-blur-lg border border-[var(--border)] rounded-2xl px-8 py-10 w-[320px] md:w-[420px] flex-shrink-0 flex flex-col justify-between transition-colors duration-300 group hover:!bg-white/80 dark:hover:!bg-black/60"
                         >
                             <div>
                                 <Quote
