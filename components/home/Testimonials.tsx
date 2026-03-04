@@ -30,12 +30,19 @@ export default function Testimonials() {
     const rollingTestimonials = [...testimonials, ...testimonials];
 
     return (
-        <section ref={ref} data-section="testimonials" className="py-16 md:py-24 overflow-hidden">
+        <section ref={ref} data-section="testimonials" className="relative py-16 pt-32 pb-20 md:pt-48 overflow-hidden">
+            {/* Background Watermark Word */}
+            <div className="absolute -top-[5vw] -left-[2vw] z-0 pointer-events-none select-none opacity-[0.03] dark:opacity-[0.02]">
+                <span className="text-[18vw] font-black leading-none tracking-tighter text-black dark:text-white">
+                    TESTIMONIALS
+                </span>
+            </div>
+
             <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.7 }}
-                className="max-w-7xl mx-auto px-5 md:px-8 lg:px-16"
+                className="relative z-10 max-w-7xl mx-auto px-5 md:px-8 lg:px-16"
             >
                 {/* Header */}
                 <div className="flex flex-col items-center mb-12 text-center">
@@ -52,7 +59,7 @@ export default function Testimonials() {
             </motion.div>
 
             {/* Marquee */}
-            <div className="marquee-fade overflow-hidden">
+            <div className="relative z-10 marquee-fade overflow-hidden">
                 <div
                     className="flex marquee-track w-max gap-4 md:gap-6 py-6"
                     style={{ animationDuration: "50s" }}
