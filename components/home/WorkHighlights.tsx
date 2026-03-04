@@ -154,8 +154,13 @@ export default function WorkHighlights() {
             });
 
             // Phase 2: MASSIVE HOLD WITH DRIFT
+            // Calculate actual overflow so grid scrolls to true bottom (same as AILabSection)
+            const gridHeight = desktopGridRef.current.offsetHeight;
+            const windowHeight = window.innerHeight;
+            const yOffset = gridHeight > windowHeight * 0.8 ? -(gridHeight - windowHeight + 200) : -100;
+
             tl.to(desktopGridRef.current, {
-                y: "-5vh",
+                y: yOffset,
                 duration: 9,
                 ease: "none"
             }, 2.5);
@@ -404,7 +409,7 @@ export default function WorkHighlights() {
                 MOBILE VIEW (Pinned Scrub Journey)
             ======================================================== */}
             {/* Mobile Grid Container (Visible on <768px) */}
-            <div ref={mobileContainerRef} className="flex md:hidden min-h-[75vh] py-16 w-full relative items-center justify-center flex-col px-4">
+            <div ref={mobileContainerRef} className="flex md:hidden min-h-[100vh] py-16 w-full relative items-center justify-center flex-col px-4">
 
                 {/* Mobile Text (Hero) - Readable initially */}
                 <div ref={mobileTextRef} className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex flex-col items-center justify-center text-center z-20 pointer-events-none will-change-transform">
@@ -422,7 +427,7 @@ export default function WorkHighlights() {
                 </div>
 
                 {/* Mobile Grid */}
-                <div className="absolute top-[40%] left-0 right-0 z-10 -translate-y-1/2 px-4 pointer-events-none">
+                <div className="absolute top-[45%] left-0 right-0 z-10 -translate-y-1/2 px-4 pointer-events-none">
                     <div ref={mobileGridRef} className="grid grid-cols-12 gap-4 md:gap-5 auto-rows-[110px] w-full pointer-events-auto will-change-transform">
                         {projects.map((project, i) => (
                             <Link
