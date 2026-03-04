@@ -409,7 +409,7 @@ export default function AILabSection() {
     };
 
     return (
-        <section ref={sectionRef} className="bg-[var(--background)] w-full relative border-t border-gray-100 dark:border-white/5 overflow-hidden">
+        <section ref={sectionRef} className="bg-[var(--background)] w-full relative overflow-hidden">
             {/* DESKTOP VIEW */}
             <div ref={desktopContainerRef} className="hidden md:flex min-h-screen w-full items-center justify-center bg-[var(--background)] relative will-change-transform py-20">
                 <div ref={textRef} className="absolute z-20 pointer-events-none will-change-transform flex flex-col items-center justify-center w-full px-4 text-center">

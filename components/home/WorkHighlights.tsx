@@ -273,8 +273,7 @@ export default function WorkHighlights() {
 
     return (
         // Remove manual heights (h-[150vh] etc). Let GSAP handle pinning distance.
-        // Removed overflow-hidden from section to prevent parallax clipping
-        <section ref={sectionRef} className="bg-[var(--background)] w-full relative border-t border-gray-100 dark:border-white/5 overflow-hidden">
+        <section ref={sectionRef} className="bg-[var(--background)] w-full relative overflow-hidden">
 
             {/* ========================================================
                 DESKTOP VIEW (Pinned Scroll Journey)

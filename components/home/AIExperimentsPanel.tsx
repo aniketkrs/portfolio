@@ -34,7 +34,7 @@ const desktopFinalPos = [
 
 export default function AIExperimentsPanel() {
     const sectionRef = useRef<HTMLElement>(null);
-    
+
     // Desktop refs
     const desktopContainerRef = useRef<HTMLDivElement>(null);
     const desktopGridRef = useRef<HTMLDivElement>(null);
@@ -60,7 +60,7 @@ export default function AIExperimentsPanel() {
 
         // ------------------------ DESKTOP ANIMATION ------------------------
         mm.add("(min-width: 768px)", () => {
-             if (!desktopGridRef.current || !textRef.current || !desktopContainerRef.current) return;
+            if (!desktopGridRef.current || !textRef.current || !desktopContainerRef.current) return;
 
             gsap.set(desktopGridRef.current, { autoAlpha: 1 });
             gsap.set(textRef.current, { scale: 1, opacity: 1, y: "0vh", filter: "blur(0px)" });
@@ -126,8 +126,8 @@ export default function AIExperimentsPanel() {
             wrapperRefs.current.forEach((wrapper, i) => {
                 if (wrapper) {
                     tl.to(wrapper, {
-                         y: `-=${i % 2 === 0 ? 6 : 12}vh`, // Subtle upward drift over a long period
-                        duration: 7, 
+                        y: `-=${i % 2 === 0 ? 6 : 12}vh`, // Subtle upward drift over a long period
+                        duration: 7,
                         ease: "none"
                     }, 2.5); // Starts immediately after fly-in
                 }
@@ -207,7 +207,7 @@ export default function AIExperimentsPanel() {
     }
 
     return (
-        <section ref={sectionRef} className="bg-[var(--background)] w-full overflow-hidden border-t border-gray-100 dark:border-white/5 relative">
+        <section ref={sectionRef} className="bg-[var(--background)] w-full overflow-hidden relative">
 
             {/* ========================================================
                 DESKTOP VIEW (Pinned Scroll Journey)
@@ -274,7 +274,7 @@ export default function AIExperimentsPanel() {
 
                 {/* Mobile Grid */}
                 <div className="absolute top-[48%] left-0 right-0 z-10 -translate-y-1/2 px-6 pointer-events-none">
-                     <div ref={mobileGridRef} className="grid grid-cols-2 gap-3 will-change-transform pointer-events-auto">
+                    <div ref={mobileGridRef} className="grid grid-cols-2 gap-3 will-change-transform pointer-events-auto">
                         {images.map((src, index) => (
                             <div key={`mobile-${index}`} className="w-full aspect-[4/5] overflow-hidden rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.08)] bg-white/5 border border-white/5 relative group">
                                 <img src={src} alt={`AI project preview ${index + 1}`} className="w-full h-full object-cover" loading="lazy" />
