@@ -429,7 +429,7 @@ export default function AILabSection() {
                             <div
                                 key={i}
                                 ref={(el: HTMLDivElement | null) => { wrapperRefs.current[i] = el; }}
-                                className={`bento-card p-6 md:p-8 flex flex-col justify-between overflow-hidden relative group h-full w-full block will-change-transform pointer-events-auto shadow-[0_20px_60px_rgba(0,0,0,0.08)] bg-white border border-gray-100 dark:border-white/5 dark:bg-black rounded-3xl ${project.dark ? "!bg-obsidian dark:!bg-obsidian !border-white/10" : ""} ${project.span}`}
+                                className={`bento-card p-6 md:p-8 flex flex-col justify-between relative group h-full w-full block will-change-transform pointer-events-auto backdrop-blur-xl shadow-[0_20px_60px_rgba(0,0,0,0.08)] !bg-white/60 border border-gray-100 dark:border-white/5 dark:!bg-black/40 rounded-3xl ${project.dark ? "!bg-obsidian/70 dark:!bg-obsidian/70 !border-white/10" : ""} ${project.span}`}
                             >
                                 {renderCardContent(project)}
                             </div>
@@ -456,7 +456,7 @@ export default function AILabSection() {
                         {labProjects.map((project, i) => (
                             <div
                                 key={`mobile-${i}`}
-                                className={`bento-card p-5 flex flex-col justify-between overflow-hidden relative group h-full w-full block shadow-[0_10px_30px_rgba(0,0,0,0.05)] bg-white border border-gray-100 dark:border-white/5 dark:bg-black rounded-2xl ${project.dark ? "!bg-obsidian dark:!bg-obsidian !border-white/10" : ""} ${project.span.replace(/col-span-\d+/, 'col-span-12').replace(/row-span-\d+/, 'row-span-2')}`}
+                                className={`bento-card p-5 flex flex-col justify-between relative group h-full w-full block backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.05)] !bg-white/60 border border-gray-100 dark:border-white/5 dark:!bg-black/40 rounded-2xl ${project.dark ? "!bg-obsidian/70 dark:!bg-obsidian/70 !border-white/10" : ""} ${project.span.replace(/col-span-\d+/, 'col-span-12').replace(/row-span-\d+/, 'row-span-2')}`}
                             >
                                 {renderCardContent(project)}
                             </div>
@@ -467,7 +467,7 @@ export default function AILabSection() {
                         <Link
                             ref={mobileFabRef}
                             href="#"
-                            className="md:hidden flex items-center gap-4 backdrop-blur-md bg-[#f2690d] hover:bg-black/80 text-black hover:text-white pl-8 pr-2.5 py-2.5 rounded-[32px] font-bold shadow-[0_10px_40px_rgba(242,105,13,0.4)] hover:shadow-[0_10px_40px_rgba(0,0,0,0.4)] transition-all duration-300 group overflow-hidden"
+                            className="md:hidden flex items-center gap-4 backdrop-blur-md bg-[#f2690d] hover:bg-black/80 text-black hover:text-white pl-8 pr-2.5 py-2.5 rounded-[32px] font-bold shadow-[0_10px_40px_rgba(242,105,13,0.4)] hover:shadow-[0_10px_40px_rgba(0,0,0,0.4)] transition-all duration-300 group"
                         >
                             <span className="uppercase tracking-[0.2em] font-semibold text-[10px] relative z-10">Explore All</span>
                             <span className="relative z-10 flex items-center justify-center w-10 h-10 rounded-full bg-white group-hover:bg-white/20 transition-colors duration-300">
@@ -482,7 +482,7 @@ export default function AILabSection() {
             <Link
                 ref={fabRef}
                 href="#"
-                className="hidden md:flex absolute bottom-24 left-1/2 -translate-x-1/2 z-50 items-center gap-4 backdrop-blur-md bg-[#f2690d] hover:bg-black/80 text-black hover:text-white pl-10 pr-3 py-3 rounded-[32px] font-bold shadow-[0_10px_40px_rgba(242,105,13,0.4)] hover:shadow-[0_10px_40px_rgba(0,0,0,0.4)] transition-all duration-300 group overflow-hidden"
+                className="hidden md:flex absolute bottom-24 left-1/2 -translate-x-1/2 z-50 items-center gap-4 backdrop-blur-md bg-[#f2690d] hover:bg-black/80 text-black hover:text-white pl-10 pr-3 py-3 rounded-[32px] font-bold shadow-[0_10px_40px_rgba(242,105,13,0.4)] hover:shadow-[0_10px_40px_rgba(0,0,0,0.4)] transition-all duration-300 group"
             >
                 <span className="uppercase tracking-[0.2em] font-semibold text-xs relative z-10">Explore All</span>
                 <span className="relative z-10 flex items-center justify-center w-12 h-12 rounded-full bg-white group-hover:bg-white/20 transition-colors duration-300">
