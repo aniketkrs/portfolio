@@ -64,29 +64,29 @@ export default function ImpactNumbers() {
     const isInView = useInView(ref, { once: true, margin: "-100px" });
 
     return (
-        <section ref={ref} className="px-8 lg:px-16 py-20 max-w-7xl mx-auto">
+        <section ref={ref} className="px-8 lg:px-16 pt-32 pb-20 max-w-7xl mx-auto">
             {/* Wrapper — relative so the Impact word and grid can be layered */}
             <div className="relative">
 
-                {/* "Impact" word — z-0, behind the grid. Pushed down top-0 so it doesn't bleed into previous section */}
+                {/* "Impact" word — z-0, behind the grid. Peeks out from top-left edge */}
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={isInView ? { opacity: 1 } : {}}
                     transition={{ duration: 1, delay: 0.3 }}
                     aria-hidden="true"
-                    className="absolute top-0 -left-4 z-0 pointer-events-none select-none"
+                    className="absolute -top-[7vw] -left-4 z-0 pointer-events-none select-none"
                 >
                     <span className="text-[18vw] sm:text-[14vw] md:text-[11vw] lg:text-[10vw] font-display font-black uppercase tracking-tighter leading-none text-[var(--text-primary)] opacity-[0.18] dark:opacity-[0.12] whitespace-nowrap">
                         Impact
                     </span>
                 </motion.div>
 
-                {/* Stats grid — sits below top-0 by enough margin to overlap the watermark about 50-60% */}
+                {/* Stats grid — z-10, sits on top and overlays the word behind it */}
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.7, delay: 0.2 }}
-                    className="relative z-10 mt-[10vw] sm:mt-[8vw] md:mt-[6vw] lg:mt-[5vw] grid grid-cols-2 md:grid-cols-3 border border-[var(--border)] rounded-card overflow-hidden bg-[var(--background)]/90 backdrop-blur-xl shadow-lg dark:shadow-none"
+                    className="relative z-10 grid grid-cols-2 md:grid-cols-3 border border-[var(--border)] rounded-card overflow-hidden bg-[var(--background)]/90 backdrop-blur-xl"
                 >
                     {stats.map((stat) => (
                         <AnimatedStat

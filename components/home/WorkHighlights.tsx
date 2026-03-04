@@ -66,8 +66,8 @@ export default function WorkHighlights() {
     const textRef = useRef<HTMLDivElement>(null);
     const wrapperRefs = useRef<(HTMLAnchorElement | null)[]>([]);
 
-    // FAB ref (desktop) - now on a div wrapper
-    const fabRef = useRef<HTMLDivElement>(null);
+    // FAB ref (desktop)
+    const fabRef = useRef<HTMLAnchorElement>(null);
     // FAB ref (mobile — separate so GSAP targets correct element)
     const mobileFabRef = useRef<HTMLAnchorElement>(null);
 
@@ -154,11 +154,10 @@ export default function WorkHighlights() {
             });
 
             // Phase 2: MASSIVE HOLD WITH DRIFT
-            // Ensure the grid scrolls up far enough to reveal the FAB, and give extra scroll space
+            // Calculate actual overflow so grid scrolls all the way to the bottom to reveal the FAB cleanly
             const gridHeight = desktopGridRef.current.offsetHeight;
             const windowHeight = window.innerHeight;
-            // Add extra space (300px) so the bottom FAB shows clearly above the fold before the pin releases
-            const yOffset = gridHeight > windowHeight * 0.7 ? -(gridHeight - windowHeight + 350) : -150;
+            const yOffset = gridHeight > windowHeight * 0.7 ? -(gridHeight - windowHeight + 350) : -200;
 
             tl.to(desktopGridRef.current, {
                 y: yOffset,
@@ -245,23 +244,35 @@ export default function WorkHighlights() {
             });
 
             // HOLD FOR MOBILE WITH DRIFT
+            // Calculate actual overflow so the very long grid scrolls to its bottom
+            const mobileGridHeight = mobileGridRef.current.offsetHeight;
+            const mobileWindowHeight = window.innerHeight;
+            const yOffsetMobile = -(mobileGridHeight - mobileWindowHeight + 150);
+
             tl.to(mobileGridRef.current, {
-                y: "-5vh",
-                duration: 5,
+                y: yOffsetMobile,
+                duration: 9, // using the full duration of hold for a smooth scroll
                 ease: "none"
             }, 2.5);
 
-            // MOBILE FAB ANIMATION — no drift, just reveal in place
+            // MOBILE FAB ANIMATION
             if (mobileFabRef.current) {
-                gsap.set(mobileFabRef.current, { y: 30, opacity: 0, scale: 0.8 });
+                gsap.set(mobileFabRef.current, { y: 30, opacity: 0, scale: 0.8, pointerEvents: "none" });
 
                 tl.to(mobileFabRef.current, {
                     y: 0,
                     opacity: 1,
                     scale: 1,
                     duration: 1,
+                    pointerEvents: "auto",
                     ease: "back.out(1.5)",
                 }, 1.5);
+
+                tl.to(mobileFabRef.current, {
+                    y: "-=2vh",
+                    duration: 9,
+                    ease: "none"
+                }, 2.5);
             }
         });
 
@@ -402,21 +413,6 @@ export default function WorkHighlights() {
                             </Link>
                         ))}
                     </div>
-
-                    {/* DESKTOP FAB — moved inside the grid container so it flows NATURALLY below the grid items and scrolls up with them! */}
-                    <div className="flex justify-center mt-12 w-full opacity-0 pointer-events-none" ref={fabRef}>
-                        <Link
-                            href="/work"
-                            className="flex items-center gap-4 backdrop-blur-md bg-[#f2690d] hover:bg-black/80 text-black hover:text-white pl-10 pr-3 py-3 rounded-[32px] font-bold shadow-[0_10px_40px_rgba(242,105,13,0.4)] hover:shadow-[0_10px_40px_rgba(0,0,0,0.4)] transition-all duration-300 hover:scale-105 active:scale-95 group overflow-hidden"
-                        >
-                            <span className="uppercase tracking-[0.2em] font-semibold text-xs relative z-10 transition-colors duration-300">Show All</span>
-                            <span className="relative z-10 flex items-center justify-center w-12 h-12 rounded-full bg-white group-hover:bg-white/20 transition-colors duration-300">
-                                <svg width="20" height="20" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="transform group-hover:rotate-45 group-hover:translate-x-0.5 transition-all duration-300">
-                                    <path d="M14.9167 26.25L13.75 25.0833L23.4167 15.4167H17.9167V13.75H26.25V22.0833H24.5833V16.5833L14.9167 26.25V26.25" className="fill-[#f2690d] group-hover:fill-white transition-colors duration-300" />
-                                </svg>
-                            </span>
-                        </Link>
-                    </div>
                 </div>
             </div>
 
@@ -442,7 +438,8 @@ export default function WorkHighlights() {
                 </div>
 
                 {/* Mobile Grid */}
-                <div className="absolute top-[45%] left-0 right-0 z-10 -translate-y-1/2 px-4 pointer-events-none">
+                {/* Adjusting the top to [15vh] to give room for hero, and adding pb to scroll fully */}
+                <div className="absolute top-[15vh] left-0 right-0 z-10 px-4 pointer-events-none pb-[25vh]">
                     <div ref={mobileGridRef} className="grid grid-cols-12 gap-4 md:gap-5 auto-rows-[110px] w-full pointer-events-auto will-change-transform">
                         {projects.map((project, i) => (
                             <Link
@@ -530,26 +527,36 @@ export default function WorkHighlights() {
                             </Link>
                         ))}
                     </div>
-
-                    {/* Mobile FAB — inside pinned container, flows after grid */}
-                    <div className="flex justify-center mt-6 mb-12 pointer-events-auto">
-                        <Link
-                            ref={mobileFabRef}
-                            href="/work"
-                            className="md:hidden flex items-center gap-4 bg-[#f2690d] hover:bg-white text-black hover:text-[#f2690d] pl-8 pr-2.5 py-2.5 rounded-[32px] font-bold shadow-[0_10px_40px_rgba(242,105,13,0.4)] hover:shadow-[0_10px_40px_rgba(255,255,255,0.4)] transition-all duration-300 hover:scale-105 active:scale-95 group overflow-hidden"
-                        >
-                            <span className="uppercase tracking-[0.2em] font-semibold text-[10px] relative z-10 transition-colors duration-300">Show All</span>
-                            <span className="relative z-10 flex items-center justify-center w-10 h-10 rounded-full bg-white group-hover:bg-[#f2690d] transition-colors duration-300">
-                                <svg width="20" height="20" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="transform group-hover:rotate-45 group-hover:translate-x-0.5 transition-all duration-300">
-                                    <path d="M14.9167 26.25L13.75 25.0833L23.4167 15.4167H17.9167V13.75H26.25V22.0833H24.5833V16.5833L14.9167 26.25V26.25" className="fill-[#f2690d] group-hover:fill-white transition-colors duration-300" />
-                                </svg>
-                            </span>
-                        </Link>
-                    </div>
                 </div>
             </div>
 
-            {/* Note: DESKTOP FAB is now inline with the desktop grid so it scrolls dynamically and avoids overlapping cards */}
+            {/* MOBILE FAB — moved to absolute positioning to act like desktop FAB */}
+            <Link
+                ref={mobileFabRef}
+                href="/work"
+                className="flex md:hidden absolute bottom-8 left-1/2 -translate-x-1/2 z-50 items-center gap-4 bg-[#f2690d] hover:bg-white text-black hover:text-[#f2690d] pl-8 pr-2.5 py-2.5 rounded-[32px] font-bold shadow-[0_10px_40px_rgba(242,105,13,0.4)] hover:shadow-[0_10px_40px_rgba(255,255,255,0.4)] transition-all duration-300 hover:scale-105 active:scale-95 group overflow-hidden opacity-0 pointer-events-none"
+            >
+                <span className="uppercase tracking-[0.2em] font-semibold text-[10px] relative z-10 transition-colors duration-300">Show All</span>
+                <span className="relative z-10 flex items-center justify-center w-10 h-10 rounded-full bg-white group-hover:bg-[#f2690d] transition-colors duration-300">
+                    <svg width="20" height="20" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="transform group-hover:rotate-45 group-hover:translate-x-0.5 transition-all duration-300">
+                        <path d="M14.9167 26.25L13.75 25.0833L23.4167 15.4167H17.9167V13.75H26.25V22.0833H24.5833V16.5833L14.9167 26.25V26.25" className="fill-[#f2690d] group-hover:fill-white transition-colors duration-300" />
+                    </svg>
+                </span>
+            </Link>
+
+            {/* DESKTOP FAB — absolute positioned, only visible on md+ */}
+            <Link
+                ref={fabRef}
+                href="/work"
+                className="hidden md:flex absolute bottom-24 left-1/2 -translate-x-1/2 z-50 items-center gap-4 backdrop-blur-md bg-[#f2690d] hover:bg-black/80 text-black hover:text-white pl-10 pr-3 py-3 rounded-[32px] font-bold shadow-[0_10px_40px_rgba(242,105,13,0.4)] hover:shadow-[0_10px_40px_rgba(0,0,0,0.4)] transition-all duration-300 hover:scale-105 active:scale-95 group overflow-hidden opacity-0 pointer-events-none"
+            >
+                <span className="uppercase tracking-[0.2em] font-semibold text-xs relative z-10 transition-colors duration-300">Show All</span>
+                <span className="relative z-10 flex items-center justify-center w-12 h-12 rounded-full bg-white group-hover:bg-white/20 transition-colors duration-300">
+                    <svg width="20" height="20" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="transform group-hover:rotate-45 group-hover:translate-x-0.5 transition-all duration-300">
+                        <path d="M14.9167 26.25L13.75 25.0833L23.4167 15.4167H17.9167V13.75H26.25V22.0833H24.5833V16.5833L14.9167 26.25V26.25" className="fill-[#f2690d] group-hover:fill-white transition-colors duration-300" />
+                    </svg>
+                </span>
+            </Link>
 
         </section>
     );
