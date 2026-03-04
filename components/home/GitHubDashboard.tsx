@@ -165,7 +165,7 @@ export default function GitHubDashboard() {
     }
 
     return (
-        <section ref={ref} data-section="github" className="px-6 lg:px-16 py-20 max-w-7xl mx-auto">
+        <section ref={ref} data-section="github" className="px-6 lg:px-16 pt-32 pb-20 md:pt-48 max-w-7xl mx-auto">
             <div className="relative">
                 {/* BIG TITLE WATERMARK */}
                 <motion.div
