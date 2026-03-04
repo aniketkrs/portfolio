@@ -30,43 +30,43 @@ export default function Home() {
             {/* <CompanyLogos /> */}
 
             {/* 3. PM Toolkit — tools I ship with */}
-            <div className="section-divider" />
+
             <PMToolkit />
 
             {/* 4. Work — show don't tell, bento grid of projects */}
-            <div className="section-divider" />
+
             <WorkHighlights />
 
             {/* 5. Impact Numbers — quantify the results */}
-            <div className="section-divider" />
+
             <ImpactNumbers />
 
             {/* 6. AI Lab — experimental/creative side */}
-            <div className="section-divider" />
+
             <AILabSection />
 
             {/* 7. GitHub Dashboard — technical credibility */}
-            <div className="section-divider" />
+
             <GitHubDashboard />
 
             {/* 8. Timeline — career journey for context */}
-            <div className="section-divider" />
+
             <Timeline />
 
             {/* 9. Testimonials — peer validation */}
-            <div className="section-divider" />
+
             <Testimonials />
 
             {/* 10. Book Gallery — scrollable 3D interactive */}
-            <div className="section-divider" />
+
             <BookGallery />
 
             {/* 11. Articles — latest writing */}
-            <div className="section-divider" />
+
             <ArticlesPreview />
 
             {/* 12. Contact — final CTA */}
-            <div className="section-divider" />
+
             <Contact />
         </main>
     );
