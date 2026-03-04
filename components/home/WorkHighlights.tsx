@@ -274,12 +274,12 @@ export default function WorkHighlights() {
     return (
         // Remove manual heights (h-[150vh] etc). Let GSAP handle pinning distance.
         // Removed overflow-hidden from section to prevent parallax clipping
-        <section ref={sectionRef} className="bg-[var(--background)] w-full relative border-t border-gray-100 dark:border-white/5">
+        <section ref={sectionRef} className="bg-[var(--background)] w-full relative border-t border-gray-100 dark:border-white/5 overflow-hidden">
 
             {/* ========================================================
                 DESKTOP VIEW (Pinned Scroll Journey)
             ======================================================== */}
-            <div ref={desktopContainerRef} className="hidden md:flex min-h-screen w-full items-center justify-center bg-[var(--background)] relative will-change-transform py-20">
+            <div ref={desktopContainerRef} className="hidden md:flex min-h-screen w-full items-center justify-center bg-[var(--background)] relative will-change-transform py-20 overflow-hidden">
 
                 {/* 1. HERO STATE (Text) */}
                 <div ref={textRef} className="absolute z-20 pointer-events-none will-change-transform flex flex-col items-center justify-center w-full px-4 text-center">
@@ -538,7 +538,7 @@ export default function WorkHighlights() {
             <Link
                 ref={fabRef}
                 href="/work"
-                className="hidden md:flex absolute bottom-24 left-1/2 -translate-x-1/2 z-50 items-center gap-4 bg-[#f2690d] hover:bg-white text-black hover:text-[#f2690d] pl-10 pr-3 py-3 rounded-[32px] font-bold shadow-[0_10px_40px_rgba(242,105,13,0.4)] hover:shadow-[0_10px_40px_rgba(255,255,255,0.4)] transition-all duration-300 hover:scale-105 active:scale-95 group overflow-hidden"
+                className="hidden md:flex absolute bottom-24 left-1/2 -translate-x-1/2 z-50 items-center gap-4 bg-[#f2690d] hover:bg-white text-black hover:text-[#f2690d] pl-10 pr-3 py-3 rounded-[32px] font-bold shadow-[0_10px_40px_rgba(242,105,13,0.4)] hover:shadow-[0_10px_40px_rgba(255,255,255,0.4)] transition-all duration-300 hover:scale-105 active:scale-95 group overflow-hidden opacity-0 pointer-events-none"
             >
                 <span className="uppercase tracking-[0.2em] font-semibold text-xs relative z-10 transition-colors duration-300">Show All</span>
 
