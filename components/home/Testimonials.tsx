@@ -38,26 +38,6 @@ export default function Testimonials() {
                 </span>
             </div>
 
-            <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.7 }}
-                className="relative z-10 max-w-7xl mx-auto px-5 md:px-8 lg:px-16"
-            >
-                {/* Header */}
-                <div className="flex flex-col items-center mb-12 text-center">
-                    <div className="text-[10px] font-bold tracking-[0.3em] uppercase text-primary mb-3">
-                        Testimonials
-                    </div>
-                    <h2 className="text-2xl md:text-4xl font-bold tracking-tight mb-4">
-                        What People Say
-                    </h2>
-                    <p className="text-[var(--text-muted)] max-w-xl text-base md:text-lg">
-                        I've had the pleasure of working with some amazing people across the industry. Hover over any card to pause and read.
-                    </p>
-                </div>
-            </motion.div>
-
             {/* Marquee */}
             <div className="relative z-10 marquee-fade overflow-hidden">
                 <div
