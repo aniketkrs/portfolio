@@ -43,17 +43,13 @@ function AnimatedStat({ value, prefix, suffix, label, highlight, isInView }: {
     }, [isInView, value]);
 
     return (
-        <div className={`p-6 md:p-8 border-r border-b border-[var(--border)] last:border-r-0 ${highlight ? "relative overflow-hidden" : ""
-            }`}>
+        <div className={`p-6 md:p-8 border-r border-b border-[var(--border)] last:border-r-0 ${highlight ? "relative overflow-hidden" : ""}`}>
             {highlight && (
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent" />
             )}
             <div className="relative z-10">
-                <span className={`text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter leading-none ${highlight ? "text-primary" : ""
-                    }`}>
-                    {prefix}
-                    {count}
-                    {suffix}
+                <span className={`text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter leading-none ${highlight ? "text-primary" : ""}`}>
+                    {prefix}{count}{suffix}
                 </span>
                 <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--text-muted)]">
                     {label}
@@ -68,26 +64,27 @@ export default function ImpactNumbers() {
     const isInView = useInView(ref, { once: true, margin: "-100px" });
 
     return (
-        <section ref={ref} className="px-8 lg:px-16 py-20 max-w-7xl mx-auto">
-            {/* Header */}
+        <section ref={ref} className="px-8 lg:px-16 py-20 max-w-7xl mx-auto relative overflow-hidden">
+
+            {/* Big background word — same style as AI Products / Case Studies */}
             <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.7 }}
-                className="mb-12"
+                initial={{ opacity: 0 }}
+                animate={isInView ? { opacity: 1 } : {}}
+                transition={{ duration: 1 }}
+                aria-hidden="true"
+                className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex items-center justify-center pointer-events-none select-none z-0"
             >
-                <h2 className="text-4xl md:text-6xl font-bold tracking-tighter">
-                    Numbers that{" "}
-                    <span className="italic text-primary">matter.</span>
-                </h2>
+                <span className="text-[28vw] sm:text-[22vw] md:text-[18vw] lg:text-[16vw] font-display font-black uppercase tracking-tighter leading-none text-[var(--text-primary)] opacity-[0.06] dark:opacity-[0.04] whitespace-nowrap">
+                    Impact
+                </span>
             </motion.div>
 
-            {/* Stat Grid */}
+            {/* Stat Grid — sits above the watermark */}
             <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.7, delay: 0.2 }}
-                className="grid grid-cols-2 md:grid-cols-3 border border-[var(--border)] rounded-card overflow-hidden"
+                className="relative z-10 grid grid-cols-2 md:grid-cols-3 border border-[var(--border)] rounded-card overflow-hidden"
             >
                 {stats.map((stat) => (
                     <AnimatedStat
