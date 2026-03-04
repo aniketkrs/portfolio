@@ -187,9 +187,12 @@ export default function GitHubDashboard() {
                         initial={{ opacity: 0, y: 30, filter: "blur(6px)" }}
                         animate={isInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
                         transition={{ duration: 0.7, delay: 0.1 }}
-                        className="md:col-span-8 bento-card p-6"
+                        className="md:col-span-8 bento-card p-6 relative overflow-hidden"
                     >
-                        <div className="flex items-center justify-between mb-5">
+                        {/* Subtle orange glow matching the highlight style */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-[#f2690d]/10 via-transparent to-transparent pointer-events-none" />
+
+                        <div className="relative z-10 flex items-center justify-between mb-5">
                             <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[var(--text-muted)]">
                                 Contribution Graph
                             </p>
@@ -283,12 +286,9 @@ export default function GitHubDashboard() {
                         initial={{ opacity: 0, y: 30, filter: "blur(6px)" }}
                         animate={isInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
                         transition={{ duration: 0.7, delay: 0.3 }}
-                        className="md:col-span-7 bento-card p-6 relative overflow-hidden"
+                        className="md:col-span-7 bento-card p-6"
                     >
-                        {/* Subtle orange glow matching the highlight style */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-[#f2690d]/10 via-transparent to-transparent pointer-events-none" />
-
-                        <div className="relative z-10 flex items-center justify-between mb-5">
+                        <div className="flex items-center justify-between mb-5">
                             <div className="flex items-center gap-2">
                                 <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[var(--text-muted)]">
                                     Recent Activity
