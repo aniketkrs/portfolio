@@ -116,9 +116,9 @@ export default function WorkHighlights() {
                 scrollTrigger: {
                     trigger: sectionRef.current,
                     start: "top top",
-                    end: "+=350%", // Increased scroll distance heavily
+                    end: "+=500%",
                     scrub: 1,
-                    pin: true, // EXPLICIT GSAP PIN (prevents layout whitespace bleeding)
+                    pin: true,
                     anticipatePin: 1,
                 },
             });
@@ -153,12 +153,12 @@ export default function WorkHighlights() {
                 }
             });
 
-            // Phase 2: MASSIVE HOLD WITH DRIFT (Grid drifts slowly as a whole so cards don't overlap)
+            // Phase 2: MASSIVE HOLD WITH DRIFT
             tl.to(desktopGridRef.current, {
                 y: "-5vh",
-                duration: 7, // Replaces both the dead hold and phase 3
+                duration: 9,
                 ease: "none"
-            }, 2.5); // Starts immediately after the fly-in
+            }, 2.5);
 
             // Phase 2: FAB ANIMATION
             if (fabRef.current) {
@@ -173,12 +173,11 @@ export default function WorkHighlights() {
                     ease: "back.out(1.5)"
                 }, 1.5); // Start fading in as the grid is finishing its entrance (overlaps Phase 1)
 
-                // Drift with the grid slightly so it doesn't look completely disjointed from the parallax
                 tl.to(fabRef.current, {
                     y: "-=3vh",
-                    duration: 7,
+                    duration: 9,
                     ease: "none"
-                }, 2.5); // Drift starts when the main holding pattern starts
+                }, 2.5);
             }
         });
 
@@ -208,7 +207,7 @@ export default function WorkHighlights() {
                 scrollTrigger: {
                     trigger: sectionRef.current,
                     start: "top top",
-                    end: "+=80%", // Drastically reduced for tighter mobile scrolling
+                    end: "+=120%",
                     scrub: 1,
                     pin: true,
                     anticipatePin: 1
@@ -242,7 +241,7 @@ export default function WorkHighlights() {
             // HOLD FOR MOBILE WITH DRIFT
             tl.to(mobileGridRef.current, {
                 y: "-5vh",
-                duration: 4,
+                duration: 5,
                 ease: "none"
             }, 2.5);
 
@@ -290,9 +289,6 @@ export default function WorkHighlights() {
                             &amp; Decks
                         </span>
                     </h2>
-                    <p className="mt-8 text-base font-medium tracking-widest uppercase text-[var(--text-secondary)]">
-                        Scroll to View Gallery
-                    </p>
                 </div>
 
                 {/* 2. TRANSITION STATE (Bento Grid) */}
@@ -423,9 +419,6 @@ export default function WorkHighlights() {
                             &amp; Decks
                         </span>
                     </h2>
-                    <p className="mt-6 text-xs font-bold tracking-widest uppercase text-[var(--text-secondary)]">
-                        Scroll Down
-                    </p>
                 </div>
 
                 {/* Mobile Grid */}
