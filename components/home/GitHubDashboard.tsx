@@ -166,195 +166,192 @@ export default function GitHubDashboard() {
 
     return (
         <section ref={ref} data-section="github" className="px-6 lg:px-16 py-20 max-w-7xl mx-auto">
-            {/* Header */}
-            <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.7 }}
-                className="flex items-center justify-between mb-10"
-            >
-                <div className="flex items-center gap-3">
-                    <svg className="w-5 h-5 text-primary" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
-                    </svg>
-                    <h3 className="font-mono text-[11px] font-bold tracking-[0.2em] uppercase text-[var(--text-primary)]">
-                        GitHub Activity
-                    </h3>
-                </div>
-                <div className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    <span className="chip chip-primary text-[9px]">Live Sync</span>
-                </div>
-            </motion.div>
-
-            {/* Bento Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
-                {/* ── Contribution Graph (8 cols) ── */}
+            <div className="relative">
+                {/* BIG TITLE WATERMARK */}
                 <motion.div
-                    initial={{ opacity: 0, y: 30, filter: "blur(6px)" }}
-                    animate={isInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
-                    transition={{ duration: 0.7, delay: 0.1 }}
-                    className="md:col-span-8 bento-card p-6"
+                    initial={{ opacity: 0 }}
+                    animate={isInView ? { opacity: 1 } : {}}
+                    transition={{ duration: 1, delay: 0.3 }}
+                    aria-hidden="true"
+                    className="absolute -top-[7vw] -left-4 z-0 pointer-events-none select-none"
                 >
-                    <div className="flex items-center justify-between mb-5">
-                        <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[var(--text-muted)]">
-                            Contribution Graph
-                        </p>
-                        <span className="text-[10px] font-mono text-[var(--text-muted)]">
-                            Last 12 months
-                        </span>
-                    </div>
+                    <span className="text-[18vw] sm:text-[14vw] md:text-[11vw] lg:text-[10vw] font-display font-black uppercase tracking-tighter leading-none text-[var(--text-primary)] opacity-[0.18] dark:opacity-[0.12] whitespace-nowrap">
+                        GitHub
+                    </span>
+                </motion.div>
 
-                    {/* Heatmap */}
-                    <div className="overflow-x-auto pb-2">
-                        <div className="flex gap-[3px]" style={{ minWidth: "680px" }}>
-                            {contributionWeeks.map((week, wi) => (
-                                <div key={wi} className="flex flex-col gap-[3px]">
-                                    {week.map((level, di) => (
-                                        <motion.div
-                                            key={di}
-                                            initial={{ scale: 0, opacity: 0 }}
-                                            animate={isInView ? { scale: 1, opacity: 1 } : {}}
-                                            transition={{
-                                                delay: 0.3 + wi * 0.008 + di * 0.005,
-                                                duration: 0.2,
-                                            }}
-                                            className="w-[11px] h-[11px] rounded-[2.5px]"
-                                            style={{ background: levelColor(level) }}
+                {/* Bento Grid */}
+                <div className="relative z-10 grid grid-cols-1 md:grid-cols-12 gap-4">
+                    {/* ── Contribution Graph (8 cols) ── */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 30, filter: "blur(6px)" }}
+                        animate={isInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
+                        transition={{ duration: 0.7, delay: 0.1 }}
+                        className="md:col-span-8 bento-card p-6"
+                    >
+                        <div className="flex items-center justify-between mb-5">
+                            <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[var(--text-muted)]">
+                                Contribution Graph
+                            </p>
+                            <span className="text-[10px] font-mono text-[var(--text-muted)]">
+                                Last 12 months
+                            </span>
+                        </div>
+
+                        {/* Heatmap */}
+                        <div className="overflow-x-auto pb-2">
+                            <div className="flex gap-[3px]" style={{ minWidth: "680px" }}>
+                                {contributionWeeks.map((week, wi) => (
+                                    <div key={wi} className="flex flex-col gap-[3px]">
+                                        {week.map((level, di) => (
+                                            <motion.div
+                                                key={di}
+                                                initial={{ scale: 0, opacity: 0 }}
+                                                animate={isInView ? { scale: 1, opacity: 1 } : {}}
+                                                transition={{
+                                                    delay: 0.3 + wi * 0.008 + di * 0.005,
+                                                    duration: 0.2,
+                                                }}
+                                                className="w-[11px] h-[11px] rounded-[2.5px]"
+                                                style={{ background: levelColor(level) }}
+                                            />
+                                        ))}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Legend */}
+                        <div className="flex items-center justify-end gap-1 mt-3">
+                            <span className="text-[9px] font-mono text-[var(--text-muted)] mr-1">Less</span>
+                            {[0, 1, 2, 3, 4].map((l) => (
+                                <div
+                                    key={l}
+                                    className="w-[11px] h-[11px] rounded-[2.5px]"
+                                    style={{ background: levelColor(l) }}
+                                />
+                            ))}
+                            <span className="text-[9px] font-mono text-[var(--text-muted)] ml-1">More</span>
+                        </div>
+                    </motion.div>
+
+                    {/* ── Top Languages (4 cols) ── */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 30, filter: "blur(6px)" }}
+                        animate={isInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
+                        transition={{ duration: 0.7, delay: 0.2 }}
+                        className="md:col-span-4 bento-card p-6"
+                    >
+                        <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[var(--text-muted)] mb-5">
+                            Top Languages
+                        </p>
+
+                        {/* Stacked bar */}
+                        <div className="flex w-full h-2 rounded-full overflow-hidden mb-5">
+                            {languages.map((lang) => (
+                                <motion.div
+                                    key={lang.name}
+                                    initial={{ width: 0 }}
+                                    animate={isInView ? { width: `${lang.pct}%` } : {}}
+                                    transition={{ duration: 1, delay: 0.5, ease: [0.23, 1, 0.32, 1] }}
+                                    style={{ background: lang.color }}
+                                />
+                            ))}
+                        </div>
+
+                        {/* Legend */}
+                        <div className="space-y-3">
+                            {languages.map((lang) => (
+                                <div key={lang.name} className="flex items-center justify-between">
+                                    <div className="flex items-center gap-2">
+                                        <div
+                                            className="w-2.5 h-2.5 rounded-full"
+                                            style={{ background: lang.color }}
                                         />
-                                    ))}
+                                        <span className="text-sm">{lang.name}</span>
+                                    </div>
+                                    <span className="text-sm font-mono text-[var(--text-muted)]">
+                                        {lang.pct}%
+                                    </span>
                                 </div>
                             ))}
                         </div>
-                    </div>
+                    </motion.div>
 
-                    {/* Legend */}
-                    <div className="flex items-center justify-end gap-1 mt-3">
-                        <span className="text-[9px] font-mono text-[var(--text-muted)] mr-1">Less</span>
-                        {[0, 1, 2, 3, 4].map((l) => (
-                            <div
-                                key={l}
-                                className="w-[11px] h-[11px] rounded-[2.5px]"
-                                style={{ background: levelColor(l) }}
-                            />
-                        ))}
-                        <span className="text-[9px] font-mono text-[var(--text-muted)] ml-1">More</span>
-                    </div>
-                </motion.div>
-
-                {/* ── Top Languages (4 cols) ── */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30, filter: "blur(6px)" }}
-                    animate={isInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
-                    transition={{ duration: 0.7, delay: 0.2 }}
-                    className="md:col-span-4 bento-card p-6"
-                >
-                    <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[var(--text-muted)] mb-5">
-                        Top Languages
-                    </p>
-
-                    {/* Stacked bar */}
-                    <div className="flex w-full h-2 rounded-full overflow-hidden mb-5">
-                        {languages.map((lang) => (
-                            <motion.div
-                                key={lang.name}
-                                initial={{ width: 0 }}
-                                animate={isInView ? { width: `${lang.pct}%` } : {}}
-                                transition={{ duration: 1, delay: 0.5, ease: [0.23, 1, 0.32, 1] }}
-                                style={{ background: lang.color }}
-                            />
-                        ))}
-                    </div>
-
-                    {/* Legend */}
-                    <div className="space-y-3">
-                        {languages.map((lang) => (
-                            <div key={lang.name} className="flex items-center justify-between">
-                                <div className="flex items-center gap-2">
-                                    <div
-                                        className="w-2.5 h-2.5 rounded-full"
-                                        style={{ background: lang.color }}
-                                    />
-                                    <span className="text-sm">{lang.name}</span>
-                                </div>
-                                <span className="text-sm font-mono text-[var(--text-muted)]">
-                                    {lang.pct}%
-                                </span>
-                            </div>
-                        ))}
-                    </div>
-                </motion.div>
-
-                {/* ── Recent Commits (7 cols) ── */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30, filter: "blur(6px)" }}
-                    animate={isInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
-                    transition={{ duration: 0.7, delay: 0.3 }}
-                    className="md:col-span-7 bento-card p-6"
-                >
-                    <div className="flex items-center justify-between mb-5">
-                        <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[var(--text-muted)]">
-                            Recent Activity
-                        </p>
-                        <a
-                            href="https://github.com/aniketkrs"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center gap-1 text-[10px] font-mono text-primary hover:underline"
-                        >
-                            View Profile <ArrowUpRight size={10} />
-                        </a>
-                    </div>
-
-                    <div className="space-y-0">
-                        {recentCommits.map((c, i) => (
-                            <motion.div
-                                key={c.hash}
-                                initial={{ opacity: 0, x: -20 }}
-                                animate={isInView ? { opacity: 1, x: 0 } : {}}
-                                transition={{ duration: 0.5, delay: 0.5 + i * 0.08 }}
-                                className="flex items-start gap-3 py-3 border-b border-[var(--border)] last:border-0"
-                            >
-                                <GitCommit size={14} className="text-primary mt-1 shrink-0" />
-                                <div className="min-w-0 flex-1">
-                                    <p className="text-sm truncate">{c.msg}</p>
-                                    <div className="flex items-center gap-2 mt-0.5">
-                                        <span className="text-[10px] font-mono text-primary">{c.repo}</span>
-                                        <span className="text-[9px] font-mono text-[var(--text-muted)]">{c.hash}</span>
-                                    </div>
-                                </div>
-                                <span className="text-[10px] font-mono text-[var(--text-muted)] shrink-0">{c.time}</span>
-                            </motion.div>
-                        ))}
-                    </div>
-                </motion.div>
-
-                {/* ── Stats (5 cols, 2×2 grid) ── */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30, filter: "blur(6px)" }}
-                    animate={isInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
-                    transition={{ duration: 0.7, delay: 0.4 }}
-                    className="md:col-span-5 grid grid-cols-2 gap-4"
-                >
-                    {stats.map((s, i) => (
-                        <div
-                            key={s.label}
-                            className="bento-card p-5 flex flex-col justify-between"
-                        >
-                            <s.icon
-                                size={18}
-                                strokeWidth={1.5}
-                                className={i === 0 ? "text-primary" : "text-[var(--text-muted)]"}
-                            />
-                            <div className="mt-4">
-                                <Counter value={s.value} suffix={s.suffix} inView={isInView} />
-                                <p className="font-mono text-[9px] uppercase tracking-[0.15em] text-[var(--text-muted)] mt-1">
-                                    {s.label}
+                    {/* ── Recent Commits (7 cols) ── */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 30, filter: "blur(6px)" }}
+                        animate={isInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
+                        transition={{ duration: 0.7, delay: 0.3 }}
+                        className="md:col-span-7 bento-card p-6"
+                    >
+                        <div className="flex items-center justify-between mb-5">
+                            <div className="flex items-center gap-2">
+                                <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[var(--text-muted)]">
+                                    Recent Activity
                                 </p>
+                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                             </div>
+                            <a
+                                href="https://github.com/aniketkrs"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-1 text-[10px] font-mono text-primary hover:underline"
+                            >
+                                View Profile <ArrowUpRight size={10} />
+                            </a>
                         </div>
-                    ))}
-                </motion.div>
+
+                        <div className="space-y-0">
+                            {recentCommits.map((c, i) => (
+                                <motion.div
+                                    key={c.hash}
+                                    initial={{ opacity: 0, x: -20 }}
+                                    animate={isInView ? { opacity: 1, x: 0 } : {}}
+                                    transition={{ duration: 0.5, delay: 0.5 + i * 0.08 }}
+                                    className="flex items-start gap-3 py-3 border-b border-[var(--border)] last:border-0"
+                                >
+                                    <GitCommit size={14} className="text-primary mt-1 shrink-0" />
+                                    <div className="min-w-0 flex-1">
+                                        <p className="text-sm truncate">{c.msg}</p>
+                                        <div className="flex items-center gap-2 mt-0.5">
+                                            <span className="text-[10px] font-mono text-primary">{c.repo}</span>
+                                            <span className="text-[9px] font-mono text-[var(--text-muted)]">{c.hash}</span>
+                                        </div>
+                                    </div>
+                                    <span className="text-[10px] font-mono text-[var(--text-muted)] shrink-0">{c.time}</span>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </motion.div>
+
+                    {/* ── Stats (5 cols, 2×2 grid) ── */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 30, filter: "blur(6px)" }}
+                        animate={isInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
+                        transition={{ duration: 0.7, delay: 0.4 }}
+                        className="md:col-span-5 grid grid-cols-2 gap-4"
+                    >
+                        {stats.map((s, i) => (
+                            <div
+                                key={s.label}
+                                className="bento-card p-5 flex flex-col justify-between"
+                            >
+                                <s.icon
+                                    size={18}
+                                    strokeWidth={1.5}
+                                    className={i === 0 ? "text-primary" : "text-[var(--text-muted)]"}
+                                />
+                                <div className="mt-4">
+                                    <Counter value={s.value} suffix={s.suffix} inView={isInView} />
+                                    <p className="font-mono text-[9px] uppercase tracking-[0.15em] text-[var(--text-muted)] mt-1">
+                                        {s.label}
+                                    </p>
+                                </div>
+                            </div>
+                        ))}
+                    </motion.div>
+                </div>
             </div>
         </section>
     );
