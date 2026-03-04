@@ -185,7 +185,7 @@ export default function AILabSection() {
                 scrollTrigger: {
                     trigger: sectionRef.current,
                     start: "top top",
-                    end: "+=350%",
+                    end: "+=500%", // Longer pin for scrolling through a large grid
                     scrub: 1,
                     pin: true,
                     anticipatePin: 1,
@@ -220,9 +220,14 @@ export default function AILabSection() {
                 }
             });
 
+            // Calculate overflow amount so we scroll all the way to the bottom of the grid
+            const gridHeight = desktopGridRef.current.offsetHeight;
+            const windowHeight = window.innerHeight;
+            const yOffsetDesktop = gridHeight > windowHeight * 0.8 ? -(gridHeight - windowHeight + 200) : -100;
+
             tl.to(desktopGridRef.current, {
-                y: "-5vh",
-                duration: 7,
+                y: yOffsetDesktop,
+                duration: 9, // Use the rest of the timeline to naturally scroll the grid
                 ease: "none"
             }, 2.5);
 
@@ -240,7 +245,7 @@ export default function AILabSection() {
 
                 tl.to(fabRef.current, {
                     y: "-=3vh",
-                    duration: 7,
+                    duration: 9,
                     ease: "none"
                 }, 2.5);
             }
