@@ -467,11 +467,11 @@ export default function AILabSection() {
                         <Link
                             ref={mobileFabRef}
                             href="#"
-                            className="md:hidden flex items-center gap-4 bg-black/80 backdrop-blur-md hover:bg-black text-white pl-8 pr-2.5 py-2.5 rounded-[32px] font-bold border border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.3)] hover:shadow-[0_10px_40px_rgba(0,0,0,0.5)] transition-all duration-300 group overflow-hidden"
+                            className="md:hidden flex items-center gap-4 backdrop-blur-md bg-[#f2690d] hover:bg-black/80 text-black hover:text-white pl-8 pr-2.5 py-2.5 rounded-[32px] font-bold shadow-[0_10px_40px_rgba(242,105,13,0.4)] hover:shadow-[0_10px_40px_rgba(0,0,0,0.4)] transition-all duration-300 group overflow-hidden"
                         >
                             <span className="uppercase tracking-[0.2em] font-semibold text-[10px] relative z-10">Explore All</span>
-                            <span className="relative z-10 flex items-center justify-center w-10 h-10 rounded-full bg-white/10 group-hover:bg-white/20 transition-colors duration-300">
-                                <FlaskConical className="w-5 h-5 text-white" />
+                            <span className="relative z-10 flex items-center justify-center w-10 h-10 rounded-full bg-white group-hover:bg-white/20 transition-colors duration-300">
+                                <FlaskConical className="w-5 h-5 text-[#f2690d] group-hover:text-white transition-colors duration-300" />
                             </span>
                         </Link>
                     </div>
@@ -482,11 +482,11 @@ export default function AILabSection() {
             <Link
                 ref={fabRef}
                 href="#"
-                className="hidden md:flex absolute bottom-24 left-1/2 -translate-x-1/2 z-50 items-center gap-4 bg-black/80 backdrop-blur-md hover:bg-black text-white pl-10 pr-3 py-3 rounded-[32px] font-bold border border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.3)] hover:shadow-[0_10px_40px_rgba(0,0,0,0.5)] transition-all duration-300 group overflow-hidden"
+                className="hidden md:flex absolute bottom-24 left-1/2 -translate-x-1/2 z-50 items-center gap-4 backdrop-blur-md bg-[#f2690d] hover:bg-black/80 text-black hover:text-white pl-10 pr-3 py-3 rounded-[32px] font-bold shadow-[0_10px_40px_rgba(242,105,13,0.4)] hover:shadow-[0_10px_40px_rgba(0,0,0,0.4)] transition-all duration-300 group overflow-hidden"
             >
                 <span className="uppercase tracking-[0.2em] font-semibold text-xs relative z-10">Explore All</span>
-                <span className="relative z-10 flex items-center justify-center w-12 h-12 rounded-full bg-white/10 group-hover:bg-white/20 transition-colors duration-300">
-                    <FlaskConical className="w-5 h-5 text-white" />
+                <span className="relative z-10 flex items-center justify-center w-12 h-12 rounded-full bg-white group-hover:bg-white/20 transition-colors duration-300">
+                    <FlaskConical className="w-5 h-5 text-[#f2690d] group-hover:text-white transition-colors duration-300" />
                 </span>
             </Link>
         </section>

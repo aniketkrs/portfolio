@@ -538,12 +538,10 @@ export default function WorkHighlights() {
             <Link
                 ref={fabRef}
                 href="/work"
-                className="hidden md:flex absolute bottom-24 left-1/2 -translate-x-1/2 z-50 items-center gap-4 bg-[#f2690d] hover:bg-white text-black hover:text-[#f2690d] pl-10 pr-3 py-3 rounded-[32px] font-bold shadow-[0_10px_40px_rgba(242,105,13,0.4)] hover:shadow-[0_10px_40px_rgba(255,255,255,0.4)] transition-all duration-300 hover:scale-105 active:scale-95 group overflow-hidden opacity-0 pointer-events-none"
+                className="hidden md:flex absolute bottom-24 left-1/2 -translate-x-1/2 z-50 items-center gap-4 backdrop-blur-md bg-[#f2690d] hover:bg-black/80 text-black hover:text-white pl-10 pr-3 py-3 rounded-[32px] font-bold shadow-[0_10px_40px_rgba(242,105,13,0.4)] hover:shadow-[0_10px_40px_rgba(0,0,0,0.4)] transition-all duration-300 hover:scale-105 active:scale-95 group overflow-hidden opacity-0 pointer-events-none"
             >
                 <span className="uppercase tracking-[0.2em] font-semibold text-xs relative z-10 transition-colors duration-300">Show All</span>
-
-                {/* Arrow Container - the white circle */}
-                <span className="relative z-10 flex items-center justify-center w-12 h-12 rounded-full bg-white group-hover:bg-[#f2690d] transition-colors duration-300">
+                <span className="relative z-10 flex items-center justify-center w-12 h-12 rounded-full bg-white group-hover:bg-white/20 transition-colors duration-300">
                     <svg width="20" height="20" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="transform group-hover:rotate-45 group-hover:translate-x-0.5 transition-all duration-300">
                         <path d="M14.9167 26.25L13.75 25.0833L23.4167 15.4167H17.9167V13.75H26.25V22.0833H24.5833V16.5833L14.9167 26.25V26.25" className="fill-[#f2690d] group-hover:fill-white transition-colors duration-300" />
                     </svg>
