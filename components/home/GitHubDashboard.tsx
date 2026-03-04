@@ -189,8 +189,8 @@ export default function GitHubDashboard() {
                         transition={{ duration: 0.7, delay: 0.1 }}
                         className="md:col-span-8 bento-card p-6 relative overflow-hidden"
                     >
-                        {/* Subtle orange glow matching the highlight style */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-[#f2690d]/10 via-transparent to-transparent pointer-events-none" />
+                        {/* Soft, blurred background glow */}
+                        <div className="absolute -top-1/2 -left-1/2 w-full h-full bg-[#f2690d]/20 blur-[100px] rounded-full pointer-events-none" />
 
                         <div className="relative z-10 flex items-center justify-between mb-5">
                             <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[var(--text-muted)]">
