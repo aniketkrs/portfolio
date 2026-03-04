@@ -64,28 +64,28 @@ export default function ImpactNumbers() {
     const isInView = useInView(ref, { once: true, margin: "-100px" });
 
     return (
-        <section ref={ref} className="px-8 lg:px-16 py-20 max-w-7xl mx-auto relative overflow-hidden">
+        <section ref={ref} className="px-8 lg:px-16 py-20 max-w-7xl mx-auto">
 
-            {/* Big background word — same style as AI Products / Case Studies */}
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={isInView ? { opacity: 1 } : {}}
-                transition={{ duration: 1 }}
-                aria-hidden="true"
-                className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex items-center justify-center pointer-events-none select-none z-0"
-            >
-                <span className="text-[28vw] sm:text-[22vw] md:text-[18vw] lg:text-[16vw] font-display font-black uppercase tracking-tighter leading-none text-[var(--text-primary)] opacity-[0.06] dark:opacity-[0.04] whitespace-nowrap">
-                    Impact
-                </span>
-            </motion.div>
-
-            {/* Stat Grid — sits above the watermark */}
+            {/* Stat Grid wrapper — relative so the Impact label can be positioned inside */}
             <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.7, delay: 0.2 }}
-                className="relative z-10 grid grid-cols-2 md:grid-cols-3 border border-[var(--border)] rounded-card overflow-hidden"
+                className="relative grid grid-cols-2 md:grid-cols-3 border border-[var(--border)] rounded-card overflow-hidden"
             >
+                {/* "Impact" label — top-left corner, blurs grid content behind it */}
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={isInView ? { opacity: 1 } : {}}
+                    transition={{ duration: 1, delay: 0.4 }}
+                    aria-hidden="true"
+                    className="absolute top-0 left-0 z-20 pointer-events-none select-none backdrop-blur-md px-4 py-2 rounded-br-2xl"
+                >
+                    <span className="text-[10vw] sm:text-[8vw] md:text-[6vw] lg:text-[5vw] font-display font-black uppercase tracking-tighter leading-none text-[var(--text-primary)] opacity-20 dark:opacity-10 whitespace-nowrap">
+                        Impact
+                    </span>
+                </motion.div>
+
                 {stats.map((stat) => (
                     <AnimatedStat
                         key={stat.label}
