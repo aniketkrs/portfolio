@@ -32,8 +32,8 @@ export default function Testimonials() {
     return (
         <section ref={ref} data-section="testimonials" className="relative py-16 pt-32 pb-20 md:pt-48 overflow-hidden">
             {/* Background Watermark Word */}
-            <div className="absolute -top-[5vw] -left-[2vw] z-0 pointer-events-none select-none opacity-[0.03] dark:opacity-[0.02]">
-                <span className="text-[18vw] font-black leading-none tracking-tighter text-black dark:text-white">
+            <div className="absolute inset-0 flex items-center justify-center z-0 pointer-events-none select-none opacity-[0.03] dark:opacity-[0.02] overflow-hidden">
+                <span className="text-[14vw] md:text-[10vw] font-black leading-none tracking-tighter text-black dark:text-white whitespace-nowrap">
                     TESTIMONIALS
                 </span>
             </div>
