@@ -278,6 +278,52 @@
   }
 }
 
+/* ═══════════════════════════════════════════
+   FLASK WOBBLE — FAB icon micro-interaction
+   ═══════════════════════════════════════════ */
+@keyframes flask-wobble {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+
+  10% {
+    transform: rotate(-18deg) scale(1.15);
+  }
+
+  25% {
+    transform: rotate(14deg) scale(1.1);
+  }
+
+  40% {
+    transform: rotate(-10deg) scale(1.05);
+  }
+
+  55% {
+    transform: rotate(7deg) scale(1.03);
+  }
+
+  70% {
+    transform: rotate(-4deg) scale(1.01);
+  }
+
+  85% {
+    transform: rotate(2deg) scale(1);
+  }
+
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+.flask-hover-wobble {
+  animation: none;
+  transform-origin: center bottom;
+}
+
+.group:hover .flask-hover-wobble {
+  animation: flask-wobble 0.65s cubic-bezier(0.36, 0.07, 0.19, 0.97) forwards;
+}
+
 .animate-pulse-orange {
   animation: pulse-orange 2s infinite;
 }

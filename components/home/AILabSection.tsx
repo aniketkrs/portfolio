@@ -471,7 +471,7 @@ export default function AILabSection() {
                         >
                             <span className="uppercase tracking-[0.2em] font-semibold text-[10px] relative z-10">Explore All</span>
                             <span className="relative z-10 flex items-center justify-center w-10 h-10 rounded-full bg-white group-hover:bg-white/20 transition-colors duration-300">
-                                <FlaskConical className="w-5 h-5 text-[#f2690d] group-hover:text-white transition-colors duration-300" />
+                                <FlaskConical className="w-5 h-5 text-[#f2690d] group-hover:text-white transition-colors duration-300 flask-hover-wobble" />
                             </span>
                         </Link>
                     </div>
@@ -486,7 +486,7 @@ export default function AILabSection() {
             >
                 <span className="uppercase tracking-[0.2em] font-semibold text-xs relative z-10">Explore All</span>
                 <span className="relative z-10 flex items-center justify-center w-12 h-12 rounded-full bg-white group-hover:bg-white/20 transition-colors duration-300">
-                    <FlaskConical className="w-5 h-5 text-[#f2690d] group-hover:text-white transition-colors duration-300" />
+                    <FlaskConical className="w-5 h-5 text-[#f2690d] group-hover:text-white transition-colors duration-300 flask-hover-wobble" />
                 </span>
             </Link>
         </section>
