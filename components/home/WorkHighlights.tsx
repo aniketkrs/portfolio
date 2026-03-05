@@ -157,7 +157,7 @@ export default function WorkHighlights() {
             // Calculate actual overflow so grid scrolls all the way to the bottom to reveal the FAB cleanly
             const gridHeight = desktopGridRef.current.offsetHeight;
             const windowHeight = window.innerHeight;
-            const yOffset = gridHeight > windowHeight * 0.7 ? -(gridHeight - windowHeight + 150) : -150;
+            const yOffset = gridHeight > windowHeight * 0.7 ? -(gridHeight - windowHeight + 200) : -200;
 
             tl.to(desktopGridRef.current, {
                 y: yOffset,
@@ -167,15 +167,22 @@ export default function WorkHighlights() {
 
             // Phase 2: FAB ANIMATION
             if (fabRef.current) {
-                gsap.set(fabRef.current, { y: 50, opacity: 0, scale: 0.8 });
+                gsap.set(fabRef.current, { y: 50, opacity: 0, scale: 0.8, pointerEvents: "none" });
 
                 tl.to(fabRef.current, {
                     y: 0,
                     opacity: 1,
                     scale: 1,
+                    pointerEvents: "auto",
                     duration: 1,
                     ease: "back.out(1.5)"
-                }, 1.5); // Start fading in as the grid is finishing its entrance
+                }, 1.5);
+
+                tl.to(fabRef.current, {
+                    y: "-=3vh",
+                    duration: 9,
+                    ease: "none"
+                }, 2.5);
             }
         });
 
@@ -250,12 +257,13 @@ export default function WorkHighlights() {
 
             // MOBILE FAB ANIMATION
             if (mobileFabRef.current) {
-                gsap.set(mobileFabRef.current, { y: 30, opacity: 0, scale: 0.8 });
+                gsap.set(mobileFabRef.current, { y: 30, opacity: 0, scale: 0.8, pointerEvents: "none" });
 
                 tl.to(mobileFabRef.current, {
                     y: 0,
                     opacity: 1,
                     scale: 1,
+                    pointerEvents: "auto",
                     duration: 1,
                     ease: "back.out(1.5)",
                 }, 1.5);
@@ -399,21 +407,6 @@ export default function WorkHighlights() {
                             </Link>
                         ))}
                     </div>
-                    {/* DESKTOP FAB IN FLOW */}
-                    <div className="mt-12 md:mt-16 pointer-events-auto flex justify-center w-full">
-                        <Link
-                            ref={fabRef}
-                            href="/work"
-                            className="hidden md:flex items-center gap-4 backdrop-blur-md bg-[#f2690d] hover:bg-black/80 text-black hover:text-white pl-10 pr-3 py-3 rounded-[32px] font-bold shadow-[0_10px_40px_rgba(242,105,13,0.4)] hover:shadow-[0_10px_40px_rgba(0,0,0,0.4)] transition-all duration-300 hover:scale-105 active:scale-95 group overflow-hidden opacity-0"
-                        >
-                            <span className="uppercase tracking-[0.2em] font-semibold text-xs relative z-10 transition-colors duration-300">Show All</span>
-                            <span className="relative z-10 flex items-center justify-center w-12 h-12 rounded-full bg-white group-hover:bg-white/20 transition-colors duration-300">
-                                <svg width="20" height="20" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="transform group-hover:rotate-45 group-hover:translate-x-0.5 transition-all duration-300">
-                                    <path d="M14.9167 26.25L13.75 25.0833L23.4167 15.4167H17.9167V13.75H26.25V22.0833H24.5833V16.5833L14.9167 26.25V26.25" className="fill-[#f2690d] group-hover:fill-white transition-colors duration-300" />
-                                </svg>
-                            </span>
-                        </Link>
-                    </div>
                 </div>
             </div>
 
@@ -511,16 +504,14 @@ export default function WorkHighlights() {
                                                 </div>
                                             )}
                                             {project.description ? (
-                                                <>
-                                                    <div>
-                                                        <h3 className="text-lg font-bold leading-none mb-1">
-                                                            {project.title}
-                                                        </h3>
-                                                        <p className="text-[var(--text-muted)] text-[10px] leading-snug line-clamp-2">
-                                                            {project.description}
-                                                        </p>
-                                                    </div>
-                                                </>
+                                                <div>
+                                                    <h3 className="text-lg font-bold leading-none mb-1">
+                                                        {project.title}
+                                                    </h3>
+                                                    <p className="text-[var(--text-muted)] text-[10px] leading-snug line-clamp-2">
+                                                        {project.description}
+                                                    </p>
+                                                </div>
                                             ) : (
                                                 <h4 className="text-sm font-bold mt-auto">{project.title}</h4>
                                             )}
@@ -529,17 +520,17 @@ export default function WorkHighlights() {
                                 </Link>
                             ))}
                         </div>
-                        {/* MOBILE FAB IN FLOW */}
-                        <div className="mt-12 pointer-events-auto flex justify-center w-full">
+                        {/* Mobile FAB moved inside the scrolling container for consistent behavior with AI Lab section */}
+                        <div className="flex justify-center mt-12 mb-20 md:hidden pointer-events-auto">
                             <Link
                                 ref={mobileFabRef}
                                 href="/work"
-                                className="flex md:hidden items-center gap-4 bg-[#f2690d] hover:bg-white text-black hover:text-[#f2690d] pl-8 pr-2.5 py-2.5 rounded-[32px] font-bold shadow-[0_10px_40px_rgba(242,105,13,0.4)] hover:shadow-[0_10px_40px_rgba(255,255,255,0.4)] transition-all duration-300 hover:scale-105 active:scale-95 group overflow-hidden opacity-0"
+                                className="flex items-center gap-4 backdrop-blur-md bg-[#f2690d] hover:bg-black/80 text-black hover:text-white pl-8 pr-2.5 py-2.5 rounded-full font-bold shadow-[0_10px_40px_rgba(242,105,13,0.4)] hover:shadow-[0_10px_40px_rgba(0,0,0,0.4)] transition-all duration-300 group"
                             >
-                                <span className="uppercase tracking-[0.2em] font-semibold text-[10px] relative z-10 transition-colors duration-300">Show All</span>
-                                <span className="relative z-10 flex items-center justify-center w-10 h-10 rounded-full bg-white group-hover:bg-[#f2690d] transition-colors duration-300">
+                                <span className="uppercase tracking-[0.2em] font-semibold text-[10px] relative z-10">Show All</span>
+                                <span className="relative z-10 flex items-center justify-center w-10 h-10 rounded-full bg-white group-hover:bg-white/20 transition-colors duration-300">
                                     <svg width="20" height="20" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="transform group-hover:rotate-45 group-hover:translate-x-0.5 transition-all duration-300">
-                                        <path d="M14.9167 26.25L13.75 25.0833L23.4167 15.4167H17.9167V13.75H26.25V22.0833H24.5833V16.5833L14.9167 26.25V26.25" className="fill-[#f2690d] group-hover:fill-white transition-colors duration-300" />
+                                        <path d="M14.9167 26.25L13.75 25.0833L23.4167 15.4167H17.9167V13.75H26.25V22.0833H24.5833V16.5833L14.9167 26.25V26.25" className="fill-[#f2690d] group-hover:fill-white transition-colors" />
                                     </svg>
                                 </span>
                             </Link>
@@ -547,6 +538,22 @@ export default function WorkHighlights() {
                     </div>
                 </div>
             </div>
+
+            {/* DESKTOP FAB */}
+            <Link
+                ref={fabRef}
+                href="/work"
+                className="hidden md:flex absolute bottom-24 left-1/2 -translate-x-1/2 z-50 items-center gap-4 backdrop-blur-md bg-[#f2690d] hover:bg-black/80 text-black hover:text-white pl-10 pr-3 py-3 rounded-full font-bold shadow-[0_10px_40px_rgba(242,105,13,0.4)] hover:shadow-[0_10px_40px_rgba(0,0,0,0.4)] transition-all duration-300 group"
+            >
+                <span className="uppercase tracking-[0.2em] font-semibold text-xs relative z-10">Show All</span>
+                <span className="relative z-10 flex items-center justify-center w-12 h-12 rounded-full bg-white group-hover:bg-white/20 transition-colors duration-300">
+                    <svg width="20" height="20" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="transform group-hover:rotate-45 group-hover:translate-x-0.5 transition-all duration-300">
+                        <path d="M14.9167 26.25L13.75 25.0833L23.4167 15.4167H17.9167V13.75H26.25V22.0833H24.5833V16.5833L14.9167 26.25V26.25" className="fill-[#f2690d] group-hover:fill-white transition-colors" />
+                    </svg>
+                </span>
+            </Link>
+
+
 
         </section>
     );
