@@ -184,6 +184,25 @@ export default function WorkHighlights() {
                     ease: "none"
                 }, 2.5);
             }
+
+            // Phase 3: Fade out and scale down section to transition smoothly into the next
+            tl.to(desktopContainerRef.current, {
+                opacity: 0,
+                scale: 0.95,
+                filter: "blur(10px)",
+                duration: 4,
+                ease: "power2.inOut"
+            }, "-=4");
+
+            if (fabRef.current) {
+                tl.to(fabRef.current, {
+                    opacity: 0,
+                    scale: 0.8,
+                    duration: 4,
+                    ease: "power2.inOut",
+                    pointerEvents: "none"
+                }, "-=4");
+            }
         });
 
         // ------------------------ MOBILE ANIMATION ------------------------
@@ -268,6 +287,15 @@ export default function WorkHighlights() {
                     ease: "back.out(1.5)",
                 }, 1.5);
             }
+
+            // Phase 3: Fade out and scale down section to transition smoothly into the next
+            tl.to(mobileContainerRef.current, {
+                opacity: 0,
+                scale: 0.95,
+                filter: "blur(10px)",
+                duration: 4,
+                ease: "power2.inOut"
+            }, "-=4");
         });
 
         return () => mm.revert();
