@@ -29,7 +29,7 @@ const labProjects = [
         status: "LIVE" as const,
         icon: Sparkles,
         image: "https://images.unsplash.com/photo-1637414165749-9b3cd88b8271?w=2400&auto=format&fit=crop&q=80",
-        span: "col-span-12 md:col-span-6 row-span-4",
+        span: "col-span-4 sm:col-span-8 md:col-span-6 row-span-4",
         featured: true,
     },
     {
@@ -39,7 +39,7 @@ const labProjects = [
         status: "BETA" as const,
         icon: Wand2,
         image: "https://images.unsplash.com/photo-1531525645387-7f14be1bdbbd?w=800&auto=format&fit=crop&q=60",
-        span: "col-span-6 md:col-span-3 row-span-2",
+        span: "col-span-2 sm:col-span-4 md:col-span-3 row-span-2",
     },
     {
         title: "Contextual OS",
@@ -48,7 +48,7 @@ const labProjects = [
         status: "ALPHA" as const,
         icon: Brain,
         image: "https://images.unsplash.com/photo-1699911251220-8e0de3b5ce88?w=800&auto=format&fit=crop&q=60",
-        span: "col-span-6 md:col-span-3 row-span-2",
+        span: "col-span-2 sm:col-span-4 md:col-span-3 row-span-2",
     },
     {
         title: "Neural Ambient",
@@ -57,7 +57,7 @@ const labProjects = [
         status: "BUILD" as const,
         icon: Cpu,
         image: "https://images.unsplash.com/photo-1667483629944-6414ad0648c5?w=800&auto=format&fit=crop&q=60",
-        span: "col-span-6 md:col-span-4 row-span-2",
+        span: "col-span-2 sm:col-span-4 md:col-span-4 row-span-2",
     },
     {
         title: "Pulse Net",
@@ -66,7 +66,7 @@ const labProjects = [
         status: "ALPHA" as const,
         icon: Zap,
         image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800&auto=format&fit=crop&q=60",
-        span: "col-span-6 md:col-span-2 row-span-2",
+        span: "col-span-2 sm:col-span-4 md:col-span-2 row-span-2",
         dark: true,
     },
     {
@@ -76,7 +76,7 @@ const labProjects = [
         status: "BUILD" as const,
         icon: Globe,
         image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&auto=format&fit=crop&q=60",
-        span: "col-span-12 md:col-span-6 row-span-3",
+        span: "col-span-4 sm:col-span-8 md:col-span-6 row-span-3",
     },
     {
         title: "Strata UI",
@@ -85,7 +85,7 @@ const labProjects = [
         status: "BETA" as const,
         icon: Layers,
         image: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&auto=format&fit=crop&q=60",
-        span: "col-span-12 md:col-span-4 row-span-2",
+        span: "col-span-4 sm:col-span-8 md:col-span-4 row-span-2",
     },
     {
         title: "LensForge",
@@ -94,7 +94,7 @@ const labProjects = [
         status: "LIVE" as const,
         icon: Eye,
         image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&auto=format&fit=crop&q=60",
-        span: "col-span-6 md:col-span-4 row-span-2",
+        span: "col-span-2 sm:col-span-4 md:col-span-4 row-span-2",
         dark: true,
     },
     {
@@ -104,7 +104,7 @@ const labProjects = [
         status: "BUILD" as const,
         icon: Boxes,
         image: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&auto=format&fit=crop&q=60",
-        span: "col-span-6 md:col-span-4 row-span-2",
+        span: "col-span-2 sm:col-span-4 md:col-span-4 row-span-2",
     },
 ];
 
@@ -424,7 +424,7 @@ export default function AILabSection() {
                 </div>
 
                 <div ref={desktopGridRef} className="absolute inset-x-0 top-1/2 -translate-y-1/2 z-10 px-8 lg:px-16 max-w-7xl mx-auto flex items-center justify-center">
-                    <div className="grid grid-cols-12 gap-5 md:gap-6 w-full pointer-events-none" style={{ gridAutoRows: 'calc((100svh - 6rem) / 6)' }}>
+                    <div className="grid grid-cols-4 sm:grid-cols-8 md:grid-cols-12 gap-5 md:gap-6 w-full pointer-events-none" style={{ gridAutoRows: 'calc((100svh - 6rem) / 6)' }}>
                         {labProjects.map((project, i) => (
                             <div
                                 key={i}
@@ -452,11 +452,11 @@ export default function AILabSection() {
                 </div>
 
                 <div className="absolute top-[45%] left-0 right-0 z-10 -translate-y-1/2 px-4 pointer-events-none">
-                    <div ref={mobileGridRef} className="grid grid-cols-12 gap-4 auto-rows-[140px] w-full pointer-events-auto will-change-transform">
+                    <div ref={mobileGridRef} className="grid grid-cols-4 sm:grid-cols-8 md:grid-cols-12 gap-4 auto-rows-[140px] w-full pointer-events-auto will-change-transform">
                         {labProjects.map((project, i) => (
                             <div
                                 key={`mobile-${i}`}
-                                className={`bento-card p-5 flex flex-col justify-between relative group h-full w-full block backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.05)] !bg-white/60 border border-gray-100 dark:border-white/5 dark:!bg-black/40 rounded-2xl ${project.dark ? "!bg-obsidian/70 dark:!bg-obsidian/70 !border-white/10" : ""} ${project.span.replace(/col-span-\d+/, 'col-span-12').replace(/row-span-\d+/, 'row-span-2')}`}
+                                className={`bento-card p-5 flex flex-col justify-between relative group h-full w-full block backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.05)] !bg-white/60 border border-gray-100 dark:border-white/5 dark:!bg-black/40 rounded-2xl ${project.dark ? "!bg-obsidian/70 dark:!bg-obsidian/70 !border-white/10" : ""} ${project.span.replace(/row-span-\d+/, 'row-span-2')}`}
                             >
                                 {renderCardContent(project)}
                             </div>

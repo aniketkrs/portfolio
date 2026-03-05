@@ -32,13 +32,13 @@ export default function Footer() {
             </motion.div>
 
             {/* Grid: Photo + Form */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16 items-start">
                 {/* Left: Intro */}
                 <motion.div
                     initial={{ opacity: 0, x: -30 }}
                     animate={isInView ? { opacity: 1, x: 0 } : {}}
                     transition={{ duration: 0.8, delay: 0.2 }}
-                    className="lg:col-span-5"
+                    className="md:col-span-5"
                 >
                     <div className="rounded-3xl overflow-hidden aspect-[4/5] bg-[var(--bg-surface)] border border-[var(--border)]">
                         <div className="w-full h-full bg-gradient-to-br from-primary/10 via-transparent to-primary/5 flex items-center justify-center">
@@ -56,7 +56,7 @@ export default function Footer() {
                     initial={{ opacity: 0, x: 30 }}
                     animate={isInView ? { opacity: 1, x: 0 } : {}}
                     transition={{ duration: 0.8, delay: 0.3 }}
-                    className="lg:col-span-6 lg:col-start-7 py-4"
+                    className="md:col-span-6 md:col-start-7 py-4"
                 >
                     <form className="space-y-10" onSubmit={(e) => e.preventDefault()}>
                         <div>

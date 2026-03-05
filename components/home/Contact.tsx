@@ -14,7 +14,7 @@ export default function Contact() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.7 }}
-                className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6"
+                className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6"
             >
                 {/* Email Card */}
                 <a

@@ -87,7 +87,10 @@ export default function RootLayout({
                     <div className="grain-overlay" />
                     <div className="grid-lines">
                         {Array.from({ length: 12 }).map((_, i) => (
-                            <span key={i} />
+                            <span
+                                key={i}
+                                className={`grid-line-span ${i >= 4 && i < 8 ? 'hidden sm:block' : i >= 8 ? 'hidden md:block' : ''}`}
+                            />
                         ))}
                     </div>
 

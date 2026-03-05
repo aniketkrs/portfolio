@@ -8,6 +8,11 @@ const config: Config = {
     ],
     darkMode: "class",
     theme: {
+        screens: {
+            sm: "500px",
+            md: "1200px",
+            lg: "1400px",
+        },
         extend: {
             fontFamily: {
                 display: ["var(--font-display)", "system-ui", "sans-serif"],
@@ -29,6 +34,11 @@ const config: Config = {
                     dark: "#141414",
                     light: "#ffffff",
                 },
+            },
+            gridTemplateColumns: {
+                "layout-xs": "repeat(4, minmax(0, 1fr))",
+                "layout-sm": "repeat(8, minmax(0, 1fr))",
+                "layout-md": "repeat(12, minmax(0, 1fr))",
             },
             borderRadius: {
                 card: "24px",

@@ -86,7 +86,7 @@ export default function ImpactNumbers() {
                     initial={{ opacity: 0, y: 30 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.7, delay: 0.2 }}
-                    className="relative z-10 grid grid-cols-2 md:grid-cols-3 border border-[var(--border)] rounded-card overflow-hidden bg-[var(--background)]/90 backdrop-blur-xl"
+                    className="relative z-10 grid grid-cols-2 sm:grid-cols-3 border border-[var(--border)] rounded-card overflow-hidden bg-[var(--background)]/90 backdrop-blur-xl"
                 >
                     {stats.map((stat) => (
                         <AnimatedStat

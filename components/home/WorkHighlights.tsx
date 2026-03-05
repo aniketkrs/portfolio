@@ -12,7 +12,7 @@ const projects = [
         description: "Scalable architecture for high-frequency transaction processing across 40+ countries.",
         metric: "24%",
         metricLabel: "Efficiency Gain",
-        span: "col-span-12 md:col-span-7 row-span-4",
+        span: "col-span-4 sm:col-span-8 md:col-span-7 row-span-4",
         featured: true,
         slug: "payments-platform-overhaul",
     },
@@ -21,7 +21,7 @@ const projects = [
         isMetric: true,
         metricLabel: "MoM Revenue Growth",
         subtitle: "Retention Optimization Engine",
-        span: "col-span-6 md:col-span-5 row-span-2",
+        span: "col-span-2 sm:col-span-4 md:col-span-5 row-span-2",
         slug: "growth-loops-b2b-saas",
     },
     {
@@ -29,21 +29,21 @@ const projects = [
         description: "ML-driven framework for real-time merchant onboarding and fraud prevention.",
         metric: "99.9% Accuracy",
         icon: BarChart3,
-        span: "col-span-12 md:col-span-5 row-span-4",
+        span: "col-span-4 sm:col-span-8 md:col-span-5 row-span-4",
         slug: "ai-search-discovery",
     },
     {
         title: "Unified UI Framework",
         label: "Design Systems",
         icon: Layout,
-        span: "col-span-6 md:col-span-4 row-span-2",
+        span: "col-span-2 sm:col-span-4 md:col-span-4 row-span-2",
         slug: "consumer-mobile-app-0to1",
     },
     {
         title: "5M+",
         isMetric: true,
         metricLabel: "Daily Users",
-        span: "col-span-6 md:col-span-3 row-span-2",
+        span: "col-span-2 sm:col-span-4 md:col-span-3 row-span-2",
         dark: true,
         slug: "consumer-mobile-app-0to1",
     },
@@ -332,7 +332,7 @@ export default function WorkHighlights() {
                 {/* 2. TRANSITION STATE (Bento Grid) */}
                 <div ref={desktopGridRef} className="absolute inset-x-0 top-1/2 -translate-y-1/2 z-10 px-8 lg:px-16 max-w-7xl mx-auto flex flex-col items-center justify-center">
                     <div
-                        className="grid grid-cols-12 gap-5 md:gap-6 w-full pointer-events-none"
+                        className="grid grid-cols-4 sm:grid-cols-8 md:grid-cols-12 gap-5 md:gap-6 w-full pointer-events-none"
                         style={{ gridAutoRows: 'calc((100svh - 6rem) / 6)' }}
                     >
                         {projects.map((project, i) => (
@@ -463,7 +463,7 @@ export default function WorkHighlights() {
                 {/* Adjusting the top to [15vh] to give room for hero, and adding pb to scroll fully */}
                 <div className="absolute top-[15vh] left-0 right-0 z-10 px-4 pointer-events-none pb-[25vh]">
                     <div ref={mobileGridRef} className="flex flex-col items-center w-full pointer-events-auto will-change-transform">
-                        <div className="grid grid-cols-12 gap-4 md:gap-5 auto-rows-[110px] w-full">
+                        <div className="grid grid-cols-4 sm:grid-cols-8 md:grid-cols-12 gap-4 md:gap-5 auto-rows-[110px] w-full">
                             {projects.map((project, i) => (
                                 <Link
                                     key={`mobile-${i}`}
