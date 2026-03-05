@@ -64,7 +64,7 @@ export default function ImpactNumbers() {
     const isInView = useInView(ref, { once: true, margin: "-100px" });
 
     return (
-        <section ref={ref} className="px-8 lg:px-16 pt-16 md:pt-24 pb-20 max-w-7xl mx-auto -mt-8 md:-mt-20 relative z-20">
+        <section ref={ref} className="px-8 lg:px-16 pt-16 md:pt-24 pb-20 max-w-7xl mx-auto relative z-20">
             {/* Wrapper — relative so the Impact word and grid can be layered */}
             <div className="relative">
 

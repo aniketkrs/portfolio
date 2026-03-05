@@ -157,7 +157,7 @@ export default function WorkHighlights() {
             // Calculate actual overflow so grid scrolls all the way to the bottom to reveal the FAB cleanly
             const gridHeight = desktopGridRef.current.offsetHeight;
             const windowHeight = window.innerHeight;
-            const yOffset = gridHeight > windowHeight * 0.7 ? -(gridHeight - windowHeight + 350) : -200;
+            const yOffset = gridHeight > windowHeight * 0.7 ? -(gridHeight - windowHeight + 150) : -150;
 
             tl.to(desktopGridRef.current, {
                 y: yOffset,
@@ -167,22 +167,15 @@ export default function WorkHighlights() {
 
             // Phase 2: FAB ANIMATION
             if (fabRef.current) {
-                gsap.set(fabRef.current, { y: 50, opacity: 0, scale: 0.8, pointerEvents: "none" });
+                gsap.set(fabRef.current, { y: 50, opacity: 0, scale: 0.8 });
 
                 tl.to(fabRef.current, {
                     y: 0,
                     opacity: 1,
                     scale: 1,
-                    pointerEvents: "auto",
                     duration: 1,
                     ease: "back.out(1.5)"
-                }, 1.5); // Start fading in as the grid is finishing its entrance (overlaps Phase 1)
-
-                tl.to(fabRef.current, {
-                    y: "-=3vh",
-                    duration: 9,
-                    ease: "none"
-                }, 2.5);
+                }, 1.5); // Start fading in as the grid is finishing its entrance
             }
         });
 
@@ -247,7 +240,7 @@ export default function WorkHighlights() {
             // Calculate actual overflow so the very long grid scrolls to its bottom
             const mobileGridHeight = mobileGridRef.current.offsetHeight;
             const mobileWindowHeight = window.innerHeight;
-            const yOffsetMobile = -(mobileGridHeight - mobileWindowHeight + 150);
+            const yOffsetMobile = -(mobileGridHeight - mobileWindowHeight + 100);
 
             tl.to(mobileGridRef.current, {
                 y: yOffsetMobile,
@@ -257,22 +250,15 @@ export default function WorkHighlights() {
 
             // MOBILE FAB ANIMATION
             if (mobileFabRef.current) {
-                gsap.set(mobileFabRef.current, { y: 30, opacity: 0, scale: 0.8, pointerEvents: "none" });
+                gsap.set(mobileFabRef.current, { y: 30, opacity: 0, scale: 0.8 });
 
                 tl.to(mobileFabRef.current, {
                     y: 0,
                     opacity: 1,
                     scale: 1,
                     duration: 1,
-                    pointerEvents: "auto",
                     ease: "back.out(1.5)",
                 }, 1.5);
-
-                tl.to(mobileFabRef.current, {
-                    y: "-=2vh",
-                    duration: 9,
-                    ease: "none"
-                }, 2.5);
             }
         });
 
@@ -308,7 +294,7 @@ export default function WorkHighlights() {
                 </div>
 
                 {/* 2. TRANSITION STATE (Bento Grid) */}
-                <div ref={desktopGridRef} className="absolute inset-x-0 top-1/2 -translate-y-1/2 z-10 px-8 lg:px-16 max-w-7xl mx-auto flex items-center justify-center">
+                <div ref={desktopGridRef} className="absolute inset-x-0 top-1/2 -translate-y-1/2 z-10 px-8 lg:px-16 max-w-7xl mx-auto flex flex-col items-center justify-center">
                     <div
                         className="grid grid-cols-12 gap-5 md:gap-6 w-full pointer-events-none"
                         style={{ gridAutoRows: 'calc((100svh - 6rem) / 6)' }}
@@ -413,6 +399,21 @@ export default function WorkHighlights() {
                             </Link>
                         ))}
                     </div>
+                    {/* DESKTOP FAB IN FLOW */}
+                    <div className="mt-12 md:mt-16 pointer-events-auto flex justify-center w-full">
+                        <Link
+                            ref={fabRef}
+                            href="/work"
+                            className="hidden md:flex items-center gap-4 backdrop-blur-md bg-[#f2690d] hover:bg-black/80 text-black hover:text-white pl-10 pr-3 py-3 rounded-[32px] font-bold shadow-[0_10px_40px_rgba(242,105,13,0.4)] hover:shadow-[0_10px_40px_rgba(0,0,0,0.4)] transition-all duration-300 hover:scale-105 active:scale-95 group overflow-hidden opacity-0"
+                        >
+                            <span className="uppercase tracking-[0.2em] font-semibold text-xs relative z-10 transition-colors duration-300">Show All</span>
+                            <span className="relative z-10 flex items-center justify-center w-12 h-12 rounded-full bg-white group-hover:bg-white/20 transition-colors duration-300">
+                                <svg width="20" height="20" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="transform group-hover:rotate-45 group-hover:translate-x-0.5 transition-all duration-300">
+                                    <path d="M14.9167 26.25L13.75 25.0833L23.4167 15.4167H17.9167V13.75H26.25V22.0833H24.5833V16.5833L14.9167 26.25V26.25" className="fill-[#f2690d] group-hover:fill-white transition-colors duration-300" />
+                                </svg>
+                            </span>
+                        </Link>
+                    </div>
                 </div>
             </div>
 
@@ -440,123 +441,112 @@ export default function WorkHighlights() {
                 {/* Mobile Grid */}
                 {/* Adjusting the top to [15vh] to give room for hero, and adding pb to scroll fully */}
                 <div className="absolute top-[15vh] left-0 right-0 z-10 px-4 pointer-events-none pb-[25vh]">
-                    <div ref={mobileGridRef} className="grid grid-cols-12 gap-4 md:gap-5 auto-rows-[110px] w-full pointer-events-auto will-change-transform">
-                        {projects.map((project, i) => (
-                            <Link
-                                key={`mobile-${i}`}
-                                href={`/work/${project.slug}`}
-                                className={`bento-card p-4 flex flex-col justify-between overflow-hidden relative group h-full w-full block shadow-[0_10px_30px_rgba(0,0,0,0.05)] bg-white border border-gray-100 dark:border-white/5 dark:bg-black ${project.dark
-                                    ? "!bg-obsidian dark:!bg-obsidian !border-white/10 !text-white"
-                                    : ""
-                                    } ${project.span}`}
-                            >
-                                {project.featured && (
-                                    <>
-                                        <div className="absolute top-0 right-0 p-4">
-                                            <ArrowRight className="text-primary/40 w-4 h-4 rotate-[-45deg]" />
-                                        </div>
-                                        <div>
-                                            <span className="text-[8px] font-bold tracking-widest text-[var(--text-muted)] uppercase">
-                                                Featured
-                                            </span>
-                                            <h3 className="text-xl font-bold mt-2 leading-tight whitespace-pre-line">
-                                                {project.title}
-                                            </h3>
-                                        </div>
-                                        <div className="mt-auto pt-4 flex items-end justify-between">
-                                            <div className="text-left">
-                                                <span className="text-2xl font-bold text-primary tracking-tighter">
-                                                    {project.metric}
-                                                </span>
-                                                <p className="text-[8px] font-bold text-[var(--text-muted)] uppercase tracking-widest mt-0.5">
-                                                    {project.metricLabel}
-                                                </p>
+                    <div ref={mobileGridRef} className="flex flex-col items-center w-full pointer-events-auto will-change-transform">
+                        <div className="grid grid-cols-12 gap-4 md:gap-5 auto-rows-[110px] w-full">
+                            {projects.map((project, i) => (
+                                <Link
+                                    key={`mobile-${i}`}
+                                    href={`/work/${project.slug}`}
+                                    className={`bento-card p-4 flex flex-col justify-between overflow-hidden relative group h-full w-full block shadow-[0_10px_30px_rgba(0,0,0,0.05)] bg-white border border-gray-100 dark:border-white/5 dark:bg-black ${project.dark
+                                        ? "!bg-obsidian dark:!bg-obsidian !border-white/10 !text-white"
+                                        : ""
+                                        } ${project.span}`}
+                                >
+                                    {project.featured && (
+                                        <>
+                                            <div className="absolute top-0 right-0 p-4">
+                                                <ArrowRight className="text-primary/40 w-4 h-4 rotate-[-45deg]" />
                                             </div>
-                                        </div>
-                                    </>
-                                )}
-
-                                {project.isMetric && !project.dark && (
-                                    <div className="flex flex-col justify-center items-center text-center h-full">
-                                        <span className="text-3xl font-bold text-primary tracking-tighter">
-                                            {project.title}
-                                        </span>
-                                        <p className="text-[8px] font-bold uppercase tracking-widest mt-1">
-                                            {project.metricLabel}
-                                        </p>
-                                    </div>
-                                )}
-
-                                {project.isMetric && project.dark && (
-                                    <div className="flex flex-col justify-center items-center text-center h-full">
-                                        <span className="text-2xl font-bold text-white transition-colors">
-                                            {project.title}
-                                        </span>
-                                        <p className="text-[8px] font-bold text-white/40 uppercase tracking-widest mt-1">
-                                            {project.metricLabel}
-                                        </p>
-                                    </div>
-                                )}
-
-                                {!project.featured && !project.isMetric && project.icon && (
-                                    <>
-                                        {project.label && (
-                                            <div className="flex justify-between items-start">
+                                            <div>
                                                 <span className="text-[8px] font-bold tracking-widest text-[var(--text-muted)] uppercase">
-                                                    {project.label}
+                                                    Featured
                                                 </span>
-                                                <project.icon className="text-primary/70 w-3 h-3" />
+                                                <h3 className="text-xl font-bold mt-2 leading-tight whitespace-pre-line">
+                                                    {project.title}
+                                                </h3>
                                             </div>
-                                        )}
-                                        {project.description ? (
-                                            <>
-                                                <div>
-                                                    <h3 className="text-lg font-bold leading-none mb-1">
-                                                        {project.title}
-                                                    </h3>
-                                                    <p className="text-[var(--text-muted)] text-[10px] leading-snug line-clamp-2">
-                                                        {project.description}
+                                            <div className="mt-auto pt-4 flex items-end justify-between">
+                                                <div className="text-left">
+                                                    <span className="text-2xl font-bold text-primary tracking-tighter">
+                                                        {project.metric}
+                                                    </span>
+                                                    <p className="text-[8px] font-bold text-[var(--text-muted)] uppercase tracking-widest mt-0.5">
+                                                        {project.metricLabel}
                                                     </p>
                                                 </div>
-                                            </>
-                                        ) : (
-                                            <h4 className="text-sm font-bold mt-auto">{project.title}</h4>
-                                        )}
-                                    </>
-                                )}
+                                            </div>
+                                        </>
+                                    )}
+
+                                    {project.isMetric && !project.dark && (
+                                        <div className="flex flex-col justify-center items-center text-center h-full">
+                                            <span className="text-3xl font-bold text-primary tracking-tighter">
+                                                {project.title}
+                                            </span>
+                                            <p className="text-[8px] font-bold uppercase tracking-widest mt-1">
+                                                {project.metricLabel}
+                                            </p>
+                                        </div>
+                                    )}
+
+                                    {project.isMetric && project.dark && (
+                                        <div className="flex flex-col justify-center items-center text-center h-full">
+                                            <span className="text-2xl font-bold text-white transition-colors">
+                                                {project.title}
+                                            </span>
+                                            <p className="text-[8px] font-bold text-white/40 uppercase tracking-widest mt-1">
+                                                {project.metricLabel}
+                                            </p>
+                                        </div>
+                                    )}
+
+                                    {!project.featured && !project.isMetric && project.icon && (
+                                        <>
+                                            {project.label && (
+                                                <div className="flex justify-between items-start">
+                                                    <span className="text-[8px] font-bold tracking-widest text-[var(--text-muted)] uppercase">
+                                                        {project.label}
+                                                    </span>
+                                                    <project.icon className="text-primary/70 w-3 h-3" />
+                                                </div>
+                                            )}
+                                            {project.description ? (
+                                                <>
+                                                    <div>
+                                                        <h3 className="text-lg font-bold leading-none mb-1">
+                                                            {project.title}
+                                                        </h3>
+                                                        <p className="text-[var(--text-muted)] text-[10px] leading-snug line-clamp-2">
+                                                            {project.description}
+                                                        </p>
+                                                    </div>
+                                                </>
+                                            ) : (
+                                                <h4 className="text-sm font-bold mt-auto">{project.title}</h4>
+                                            )}
+                                        </>
+                                    )}
+                                </Link>
+                            ))}
+                        </div>
+                        {/* MOBILE FAB IN FLOW */}
+                        <div className="mt-12 pointer-events-auto flex justify-center w-full">
+                            <Link
+                                ref={mobileFabRef}
+                                href="/work"
+                                className="flex md:hidden items-center gap-4 bg-[#f2690d] hover:bg-white text-black hover:text-[#f2690d] pl-8 pr-2.5 py-2.5 rounded-[32px] font-bold shadow-[0_10px_40px_rgba(242,105,13,0.4)] hover:shadow-[0_10px_40px_rgba(255,255,255,0.4)] transition-all duration-300 hover:scale-105 active:scale-95 group overflow-hidden opacity-0"
+                            >
+                                <span className="uppercase tracking-[0.2em] font-semibold text-[10px] relative z-10 transition-colors duration-300">Show All</span>
+                                <span className="relative z-10 flex items-center justify-center w-10 h-10 rounded-full bg-white group-hover:bg-[#f2690d] transition-colors duration-300">
+                                    <svg width="20" height="20" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="transform group-hover:rotate-45 group-hover:translate-x-0.5 transition-all duration-300">
+                                        <path d="M14.9167 26.25L13.75 25.0833L23.4167 15.4167H17.9167V13.75H26.25V22.0833H24.5833V16.5833L14.9167 26.25V26.25" className="fill-[#f2690d] group-hover:fill-white transition-colors duration-300" />
+                                    </svg>
+                                </span>
                             </Link>
-                        ))}
+                        </div>
                     </div>
                 </div>
             </div>
-
-            {/* MOBILE FAB — moved to absolute positioning to act like desktop FAB */}
-            <Link
-                ref={mobileFabRef}
-                href="/work"
-                className="flex md:hidden absolute bottom-8 left-1/2 -translate-x-1/2 z-50 items-center gap-4 bg-[#f2690d] hover:bg-white text-black hover:text-[#f2690d] pl-8 pr-2.5 py-2.5 rounded-[32px] font-bold shadow-[0_10px_40px_rgba(242,105,13,0.4)] hover:shadow-[0_10px_40px_rgba(255,255,255,0.4)] transition-all duration-300 hover:scale-105 active:scale-95 group overflow-hidden opacity-0 pointer-events-none"
-            >
-                <span className="uppercase tracking-[0.2em] font-semibold text-[10px] relative z-10 transition-colors duration-300">Show All</span>
-                <span className="relative z-10 flex items-center justify-center w-10 h-10 rounded-full bg-white group-hover:bg-[#f2690d] transition-colors duration-300">
-                    <svg width="20" height="20" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="transform group-hover:rotate-45 group-hover:translate-x-0.5 transition-all duration-300">
-                        <path d="M14.9167 26.25L13.75 25.0833L23.4167 15.4167H17.9167V13.75H26.25V22.0833H24.5833V16.5833L14.9167 26.25V26.25" className="fill-[#f2690d] group-hover:fill-white transition-colors duration-300" />
-                    </svg>
-                </span>
-            </Link>
-
-            {/* DESKTOP FAB — absolute positioned, only visible on md+ */}
-            <Link
-                ref={fabRef}
-                href="/work"
-                className="hidden md:flex absolute bottom-24 left-1/2 -translate-x-1/2 z-50 items-center gap-4 backdrop-blur-md bg-[#f2690d] hover:bg-black/80 text-black hover:text-white pl-10 pr-3 py-3 rounded-[32px] font-bold shadow-[0_10px_40px_rgba(242,105,13,0.4)] hover:shadow-[0_10px_40px_rgba(0,0,0,0.4)] transition-all duration-300 hover:scale-105 active:scale-95 group overflow-hidden opacity-0 pointer-events-none"
-            >
-                <span className="uppercase tracking-[0.2em] font-semibold text-xs relative z-10 transition-colors duration-300">Show All</span>
-                <span className="relative z-10 flex items-center justify-center w-12 h-12 rounded-full bg-white group-hover:bg-white/20 transition-colors duration-300">
-                    <svg width="20" height="20" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="transform group-hover:rotate-45 group-hover:translate-x-0.5 transition-all duration-300">
-                        <path d="M14.9167 26.25L13.75 25.0833L23.4167 15.4167H17.9167V13.75H26.25V22.0833H24.5833V16.5833L14.9167 26.25V26.25" className="fill-[#f2690d] group-hover:fill-white transition-colors duration-300" />
-                    </svg>
-                </span>
-            </Link>
 
         </section>
     );
