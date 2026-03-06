@@ -43,17 +43,17 @@ export default function BookGallery() {
             <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden perspective-container">
                 {/* Background Typography */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center select-none pointer-events-none z-0">
-                    <span className="text-[18vw] sm:text-[15vw] md:text-[14vw] lg:text-[13vw] font-display font-black uppercase tracking-tighter leading-none text-center text-[var(--text-primary)] opacity-[0.12] dark:opacity-[0.06] transition-all duration-300">
+                    <span className="text-[16vw] sm:text-[14vw] md:text-[12vw] lg:text-[11vw] font-display font-black uppercase tracking-tighter leading-none text-center text-[var(--text-primary)] opacity-[0.12] dark:opacity-[0.06] transition-all duration-300">
                         Book
                     </span>
-                    <span className="text-[18vw] sm:text-[15vw] md:text-[14vw] lg:text-[13vw] font-display font-black uppercase tracking-tighter leading-none text-center text-[var(--text-primary)] opacity-[0.12] dark:opacity-[0.06] transition-all duration-300">
+                    <span className="text-[16vw] sm:text-[14vw] md:text-[12vw] lg:text-[11vw] font-display font-black uppercase tracking-tighter leading-none text-center text-[var(--text-primary)] opacity-[0.12] dark:opacity-[0.06] transition-all duration-300">
                         Gallery
                     </span>
                 </div>
 
                 {/* 3D Book Gallery */}
                 <div
-                    className="relative w-[280px] h-[380px] md:w-[400px] md:h-[550px]"
+                    className="relative w-[210px] h-[290px] sm:w-[260px] sm:h-[360px] md:w-[400px] md:h-[550px]"
                     style={{ perspective: "2000px" }}
                 >
                     {/* Back Cover (static — last thing visible) */}

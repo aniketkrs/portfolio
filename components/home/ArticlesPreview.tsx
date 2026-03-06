@@ -60,17 +60,17 @@ export default function ArticlesPreview() {
             <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
                 {/* Background Typography */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center select-none pointer-events-none z-0">
-                    <span className="text-[18vw] sm:text-[15vw] md:text-[14vw] lg:text-[13vw] font-display font-black uppercase tracking-tighter leading-none text-center text-[var(--text-primary)] opacity-[0.12] dark:opacity-[0.06] transition-all duration-300">
+                    <span className="text-[16vw] sm:text-[14vw] md:text-[12vw] lg:text-[11vw] font-display font-black uppercase tracking-tighter leading-none text-center text-[var(--text-primary)] opacity-[0.12] dark:opacity-[0.06] transition-all duration-300">
                         Article
                     </span>
-                    <span className="text-[18vw] sm:text-[15vw] md:text-[14vw] lg:text-[13vw] font-display font-black uppercase tracking-tighter leading-none text-center text-[var(--text-primary)] opacity-[0.12] dark:opacity-[0.06] transition-all duration-300">
+                    <span className="text-[16vw] sm:text-[14vw] md:text-[12vw] lg:text-[11vw] font-display font-black uppercase tracking-tighter leading-none text-center text-[var(--text-primary)] opacity-[0.12] dark:opacity-[0.06] transition-all duration-300">
                         Corner
                     </span>
                 </div>
 
                 {/* 3D Paper Clip Stack */}
                 <div
-                    className="relative w-[280px] h-[380px] md:w-[400px] md:h-[550px]"
+                    className="relative w-[210px] h-[290px] sm:w-[260px] sm:h-[360px] md:w-[400px] md:h-[550px]"
                     style={{ perspective: "2000px" }}
                 >
                     {/* Binder Clip at top center */}
@@ -149,49 +149,49 @@ export default function ArticlesPreview() {
                                     />
 
                                     {/* Left margin line */}
-                                    <div className="absolute top-0 bottom-0 left-[52px] w-[1px] bg-red-300/30 pointer-events-none z-10" />
+                                    <div className="absolute top-0 bottom-0 left-[38px] sm:left-[46px] md:left-[52px] w-[1px] bg-red-300/30 pointer-events-none z-10" />
 
                                     {/* Spine shadow */}
                                     <div className="absolute inset-y-0 left-0 w-4 bg-gradient-to-r from-black/[0.06] to-transparent z-10 pointer-events-none" />
 
                                     {/* Paperclip icon */}
-                                    <div className="absolute -top-2 right-6 z-20 text-gray-400 drop-shadow-sm rotate-12">
-                                        <Paperclip className="w-7 h-7" />
+                                    <div className="absolute -top-1 sm:-top-2 right-4 sm:right-6 z-20 text-gray-400 drop-shadow-sm rotate-12">
+                                        <Paperclip className="w-5 h-5 sm:w-7 sm:h-7" />
                                     </div>
 
                                     {/* Page number */}
-                                    <div className="absolute top-4 right-5 z-10 text-[10px] text-gray-300 font-mono">
+                                    <div className="absolute top-3 sm:top-4 right-4 sm:right-5 z-10 text-[8px] sm:text-[10px] text-gray-300 font-mono">
                                         {String(i + 1).padStart(2, "0")}/{String(pageCount).padStart(2, "0")}
                                     </div>
 
                                     {/* Article Content */}
-                                    <Link href={article.href} className="absolute inset-0 p-6 pl-[64px] md:p-8 md:pl-[72px] pt-10 flex flex-col justify-start text-gray-800 z-10">
-                                        <div className="flex justify-between items-start border-b border-gray-200 pb-3 mb-4">
+                                    <Link href={article.href} className="absolute inset-0 p-4 pl-[46px] sm:p-5 sm:pl-[56px] md:p-8 md:pl-[72px] pt-8 sm:pt-10 flex flex-col justify-start text-gray-800 z-10">
+                                        <div className="flex justify-between items-start border-b border-gray-200 pb-2 sm:pb-3 mb-3 sm:mb-4">
                                             <div>
-                                                <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400">
+                                                <span className="text-[8px] sm:text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400">
                                                     {article.category}
                                                 </span>
-                                                <div className="mt-1 flex items-center gap-2 text-[10px] text-gray-300 font-mono">
+                                                <div className="mt-1 flex items-center gap-1.5 sm:gap-2 text-[8px] sm:text-[10px] text-gray-300 font-mono">
                                                     <span>{article.date}</span>
                                                     <span>·</span>
                                                     <span>{article.readTime}</span>
                                                 </div>
                                             </div>
-                                            <ArrowUpRight className="w-4 h-4 text-gray-300 group-hover:text-primary transition-colors duration-300" />
+                                            <ArrowUpRight className="w-3 h-3 sm:w-4 sm:h-4 text-gray-300 group-hover:text-primary transition-colors duration-300" />
                                         </div>
 
-                                        <h3 className="text-lg md:text-xl font-serif font-bold leading-snug tracking-tight mb-4 text-gray-800 group-hover:text-primary transition-colors duration-300">
+                                        <h3 className="text-sm sm:text-base md:text-xl font-serif font-bold leading-snug tracking-tight mb-2 sm:mb-4 text-gray-800 group-hover:text-primary transition-colors duration-300">
                                             {article.title}
                                         </h3>
 
-                                        <p className="text-[11px] md:text-xs text-gray-500 leading-relaxed font-serif line-clamp-6 mb-auto">
+                                        <p className="text-[9px] sm:text-[10px] md:text-xs text-gray-500 leading-relaxed font-serif line-clamp-4 sm:line-clamp-5 md:line-clamp-6 mb-auto">
                                             {article.teaser}
                                         </p>
 
-                                        <div className="mt-4 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-gray-400 group-hover:text-primary transition-colors duration-300">
-                                            <FileText className="w-3 h-3" />
+                                        <div className="mt-2 sm:mt-4 flex items-center gap-1 sm:gap-1.5 text-[8px] sm:text-[10px] font-bold uppercase tracking-wider text-gray-400 group-hover:text-primary transition-colors duration-300">
+                                            <FileText className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
                                             Read Article
-                                            <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                                            <ArrowUpRight className="w-2.5 h-2.5 sm:w-3 sm:h-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                                         </div>
                                     </Link>
 
