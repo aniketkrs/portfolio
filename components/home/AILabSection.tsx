@@ -144,6 +144,7 @@ export default function AILabSection() {
     const mobileContainerRef = useRef<HTMLDivElement>(null);
     const mobileTextRef = useRef<HTMLDivElement>(null);
     const mobileGridRef = useRef<HTMLDivElement>(null);
+    const mobileWrapperRefs = useRef<(HTMLDivElement | null)[]>([]);
 
     const [mounted, setMounted] = useState(false);
 
@@ -257,10 +258,6 @@ export default function AILabSection() {
         mm.add("(max-width: 1199px)", () => {
             if (!mobileTextRef.current || !mobileGridRef.current || !mobileContainerRef.current) return;
 
-            // Target only the actual card elements inside the grid (skip the FAB wrapper)
-            const gridEl = mobileGridRef.current.querySelector('.grid');
-            const mobileCards = gridEl ? Array.from(gridEl.children) : Array.from(mobileGridRef.current.children);
-
             // Mobile scatter positions — scaled-down version of desktop 3D scatter for 9 cards
             const mobileScatter = [
                 { x: -30, y: -25, rot: -8, rotX: 6, rotY: -12, scale: 1.3 },
@@ -277,19 +274,21 @@ export default function AILabSection() {
             gsap.set(mobileTextRef.current, { opacity: 1, y: 0, filter: "blur(0px)", scale: 1 });
             gsap.set(mobileGridRef.current, { opacity: 1, y: 0 });
 
-            mobileCards.forEach((card, i) => {
-                const scatter = mobileScatter[i % mobileScatter.length];
-                gsap.set(card, {
-                    x: `${scatter.x}vw`,
-                    y: `${scatter.y}vh`,
-                    rotation: scatter.rot,
-                    rotationX: scatter.rotX,
-                    rotationY: scatter.rotY,
-                    z: -200,
-                    opacity: 0,
-                    scale: scatter.scale,
-                    transformPerspective: 800,
-                });
+            mobileWrapperRefs.current.forEach((card, i) => {
+                if (card) {
+                    const scatter = mobileScatter[i % mobileScatter.length];
+                    gsap.set(card, {
+                        x: `${scatter.x}vw`,
+                        y: `${scatter.y}vh`,
+                        rotation: scatter.rot,
+                        rotationX: scatter.rotX,
+                        rotationY: scatter.rotY,
+                        z: -200,
+                        opacity: 0,
+                        scale: scatter.scale,
+                        transformPerspective: 800,
+                    });
+                }
             });
 
             const tl = gsap.timeline({
@@ -314,19 +313,21 @@ export default function AILabSection() {
             }, 0);
 
             // Phase 1: Cards fly in from 3D scatter
-            mobileCards.forEach((card, i) => {
-                tl.to(card, {
-                    x: 0,
-                    y: 0,
-                    rotation: 0,
-                    rotationX: 0,
-                    rotationY: 0,
-                    z: 0,
-                    opacity: 1,
-                    scale: 1,
-                    duration: 2.5,
-                    ease: "back.out(1.2)",
-                }, i * 0.1);
+            mobileWrapperRefs.current.forEach((card, i) => {
+                if (card) {
+                    tl.to(card, {
+                        x: "0vw",
+                        y: "0vh",
+                        rotation: 0,
+                        rotationX: 0,
+                        rotationY: 0,
+                        z: 0,
+                        opacity: 1,
+                        scale: 1,
+                        duration: 2.5,
+                        ease: "back.out(1.2)",
+                    }, i * 0.1);
+                }
             });
 
             // Phase 2: Grid drift
@@ -505,6 +506,7 @@ export default function AILabSection() {
                             {labProjects.map((project, i) => (
                                 <div
                                     key={`mobile-${i}`}
+                                    ref={(el: HTMLDivElement | null) => { mobileWrapperRefs.current[i] = el; }}
                                     className={`bento-card p-4 flex flex-col justify-between overflow-hidden relative group h-full w-full block backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.05)] bg-white/60 dark:bg-black/40 rounded-2xl ${project.dark ? "!bg-obsidian/70 dark:!bg-obsidian/70 text-white" : ""} border-transparent ${project.span.replace(/row-span-\d+/, 'row-span-2')}`}
                                 >
                                     {renderCardContent(project)}
