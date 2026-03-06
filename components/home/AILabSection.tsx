@@ -341,24 +341,16 @@ export default function AILabSection() {
                 ease: "none"
             }, 2.5);
 
-            // Phase 2: FAB ANIMATION
+            // Phase 2: FAB ANIMATION — keep FAB always visible on mobile, just add subtle entrance
             if (mobileFabRef.current) {
-                gsap.set(mobileFabRef.current, { y: 50, opacity: 0, scale: 0.8, pointerEvents: "none" });
+                gsap.set(mobileFabRef.current, { y: 30, scale: 0.9 });
 
                 tl.to(mobileFabRef.current, {
                     y: 0,
-                    opacity: 1,
                     scale: 1,
-                    pointerEvents: "auto",
-                    duration: 1,
+                    duration: 1.5,
                     ease: "back.out(1.5)",
-                }, 1.5);
-
-                tl.to(mobileFabRef.current, {
-                    y: "-=2vh",
-                    duration: 6,
-                    ease: "none"
-                }, 2.5);
+                }, 2);
             }
         });
 
@@ -444,7 +436,7 @@ export default function AILabSection() {
     };
 
     return (
-        <section ref={sectionRef} className="bg-[var(--background)] w-full relative overflow-hidden">
+        <section ref={sectionRef} className="bg-[var(--background)] w-full relative">
 
             {/* ========================================================
                 DESKTOP VIEW (Pinned Scroll Journey)
@@ -500,9 +492,9 @@ export default function AILabSection() {
                 </div>
 
                 {/* Mobile Grid Container */}
-                <div className="absolute top-[15vh] left-0 right-0 z-10 px-4 pointer-events-none pb-[25vh]">
+                <div className="relative z-10 px-4 pointer-events-none">
                     <div ref={mobileGridRef} className="flex flex-col items-center w-full pointer-events-auto will-change-transform">
-                        <div className="grid grid-cols-4 sm:grid-cols-8 md:grid-cols-12 gap-4 md:gap-5 auto-rows-[110px] w-full">
+                        <div className="grid grid-cols-4 sm:grid-cols-8 md:grid-cols-12 gap-4 md:gap-5 auto-rows-[120px] w-full">
                             {labProjects.map((project, i) => (
                                 <div
                                     key={`mobile-${i}`}
