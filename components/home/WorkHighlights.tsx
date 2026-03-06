@@ -222,8 +222,8 @@ export default function WorkHighlights() {
                 scrollTrigger: {
                     trigger: sectionRef.current,
                     start: "top top",
-                    end: "+=150%",
-                    scrub: 0.5,
+                    end: "+=100%",
+                    scrub: 0.3,
                     pin: true,
                     anticipatePin: 1
                 },
@@ -262,7 +262,7 @@ export default function WorkHighlights() {
 
             tl.to(mobileGridRef.current, {
                 y: yOffsetMobile,
-                duration: 9,
+                duration: 6,
                 ease: "none"
             }, 2.5);
 
@@ -281,7 +281,7 @@ export default function WorkHighlights() {
 
                 tl.to(mobileFabRef.current, {
                     y: "-=2vh",
-                    duration: 9,
+                    duration: 6,
                     ease: "none"
                 }, 2.5);
             }
