@@ -53,7 +53,7 @@ const labProjects = [
     {
         title: "Neural Ambient",
         description: "Environment-aware noise cancellation using edge neural processing.",
-        tags: ["Edge ML", "AudioDSP", "WASM"],
+        tags: ["Edge ML", "AudioDSP"],
         status: "BUILD" as const,
         icon: Cpu,
         image: "https://images.unsplash.com/photo-1667483629944-6414ad0648c5?w=800&auto=format&fit=crop&q=60",
@@ -135,13 +135,15 @@ export default function AILabSection() {
     const desktopGridRef = useRef<HTMLDivElement>(null);
     const textRef = useRef<HTMLDivElement>(null);
     const wrapperRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+    // FAB refs
     const fabRef = useRef<HTMLAnchorElement>(null);
+    const mobileFabRef = useRef<HTMLAnchorElement>(null);
 
     // Mobile refs
     const mobileContainerRef = useRef<HTMLDivElement>(null);
     const mobileTextRef = useRef<HTMLDivElement>(null);
     const mobileGridRef = useRef<HTMLDivElement>(null);
-    const mobileFabRef = useRef<HTMLAnchorElement>(null);
 
     const [mounted, setMounted] = useState(false);
 
@@ -185,13 +187,14 @@ export default function AILabSection() {
                 scrollTrigger: {
                     trigger: sectionRef.current,
                     start: "top top",
-                    end: "+=500%", // Longer pin for scrolling through a large grid
+                    end: "+=500%",
                     scrub: 1,
                     pin: true,
                     anticipatePin: 1,
                 },
             });
 
+            // Phase 1: Text Out
             tl.to(textRef.current, {
                 y: "-15vh",
                 opacity: 0,
@@ -202,6 +205,7 @@ export default function AILabSection() {
                 ease: "power2.inOut"
             }, 0);
 
+            // Phase 1: Cards In from scattered positions
             wrapperRefs.current.forEach((wrapper, i) => {
                 if (wrapper) {
                     tl.to(wrapper, {
@@ -220,17 +224,18 @@ export default function AILabSection() {
                 }
             });
 
-            // Calculate overflow amount so we scroll all the way to the bottom of the grid
+            // Phase 2: HOLD WITH DRIFT
             const gridHeight = desktopGridRef.current.offsetHeight;
             const windowHeight = window.innerHeight;
-            const yOffsetDesktop = gridHeight > windowHeight * 0.8 ? -(gridHeight - windowHeight + 200) : -100;
+            const yOffset = gridHeight > windowHeight * 0.7 ? -(gridHeight - windowHeight + 200) : -200;
 
             tl.to(desktopGridRef.current, {
-                y: yOffsetDesktop,
-                duration: 9, // Use the rest of the timeline to naturally scroll the grid
+                y: yOffset,
+                duration: 9,
                 ease: "none"
             }, 2.5);
 
+            // Phase 2: FAB ANIMATION
             if (fabRef.current) {
                 gsap.set(fabRef.current, { y: 50, opacity: 0, scale: 0.8, pointerEvents: "none" });
 
@@ -248,6 +253,25 @@ export default function AILabSection() {
                     duration: 9,
                     ease: "none"
                 }, 2.5);
+            }
+
+            // Phase 3: Fade out and scale down section smoothly
+            tl.to(desktopContainerRef.current, {
+                opacity: 0,
+                scale: 0.95,
+                filter: "blur(10px)",
+                duration: 4,
+                ease: "power2.inOut"
+            }, "-=4");
+
+            if (fabRef.current) {
+                tl.to(fabRef.current, {
+                    opacity: 0,
+                    scale: 0.8,
+                    duration: 4,
+                    ease: "power2.inOut",
+                    pointerEvents: "none"
+                }, "-=4");
             }
         });
 
@@ -308,23 +332,39 @@ export default function AILabSection() {
                 }, 0);
             });
 
+            // Mobile DRIFT
+            const mobileGridHeight = mobileGridRef.current.offsetHeight;
+            const mobileWindowHeight = window.innerHeight;
+            const yOffsetMobile = -(mobileGridHeight - mobileWindowHeight + 100);
+
             tl.to(mobileGridRef.current, {
-                y: "-5vh",
-                duration: 4,
+                y: yOffsetMobile,
+                duration: 9,
                 ease: "none"
             }, 2.5);
 
+            // MOBILE FAB
             if (mobileFabRef.current) {
-                gsap.set(mobileFabRef.current, { y: 30, opacity: 0, scale: 0.8 });
+                gsap.set(mobileFabRef.current, { y: 30, opacity: 0, scale: 0.8, pointerEvents: "none" });
 
                 tl.to(mobileFabRef.current, {
                     y: 0,
                     opacity: 1,
                     scale: 1,
+                    pointerEvents: "auto",
                     duration: 1,
                     ease: "back.out(1.5)",
                 }, 1.5);
             }
+
+            // Phase 3: Mobile Out
+            tl.to(mobileContainerRef.current, {
+                opacity: 0,
+                scale: 0.95,
+                filter: "blur(10px)",
+                duration: 4,
+                ease: "power2.inOut"
+            }, "-=4");
         });
 
         return () => mm.revert();
@@ -349,7 +389,7 @@ export default function AILabSection() {
                     </div>
                     <div className="relative z-10">
                         <div className="flex items-center gap-3">
-                            <span className={`text-[9px] font-bold tracking-widest uppercase px-3 py-1.5 rounded-full ${statusStyles[project.status]}`}>
+                            <span className={`text-[9px] font-bold tracking-widest uppercase px-3 py-1.5 rounded-full ${statusStyles[project.status]} shadow-xl backdrop-blur-sm`}>
                                 ● {project.status}
                             </span>
                         </div>
@@ -357,13 +397,13 @@ export default function AILabSection() {
                             {project.title}
                         </h3>
                     </div>
-                    <div className="relative z-10 flex items-end justify-between mt-8">
+                    <div className="relative z-10 flex items-end justify-between mt-auto pt-8">
                         <p className="text-white/70 text-sm max-w-[200px]">
                             {project.description}
                         </p>
                         <div className="text-right flex flex-wrap gap-2 justify-end">
                             {project.tags.map(tag => (
-                                <span key={tag} className="px-2 py-1 rounded-md bg-white/10 text-white/90 text-[10px] font-mono uppercase tracking-widest">
+                                <span key={tag} className="px-2 py-1 rounded-md bg-white/10 backdrop-blur-md border border-white/5 text-white/90 text-[10px] font-mono uppercase tracking-widest leading-none">
                                     {tag}
                                 </span>
                             ))}
@@ -398,7 +438,7 @@ export default function AILabSection() {
                     </p>
                     <div className="flex gap-2 mt-4 flex-wrap">
                         {project.tags.map(tag => (
-                            <span key={tag} className={`text-[9px] font-bold uppercase tracking-widest ${project.dark ? 'text-white/40' : 'text-[var(--text-secondary)] border border-[var(--border)] px-2 py-0.5 rounded-full'}`}>
+                            <span key={tag} className={`text-[9px] font-bold uppercase tracking-widest ${project.dark ? 'bg-white/5 text-white/40 border-white/5' : 'bg-black/5 text-[var(--text-secondary)] border-[var(--border)]'} border px-2 py-0.5 rounded-full`}>
                                 {tag}
                             </span>
                         ))}
@@ -410,26 +450,35 @@ export default function AILabSection() {
 
     return (
         <section ref={sectionRef} className="bg-[var(--background)] w-full relative overflow-hidden">
-            {/* DESKTOP VIEW */}
-            <div ref={desktopContainerRef} className="hidden md:flex min-h-screen w-full items-center justify-center bg-[var(--background)] relative will-change-transform py-20">
+
+            {/* ========================================================
+                DESKTOP VIEW (Pinned Scroll Journey)
+            ======================================================== */}
+            <div ref={desktopContainerRef} className="hidden md:flex min-h-screen w-full items-center justify-center bg-[var(--background)] relative will-change-transform py-20 overflow-hidden">
+
+                {/* 1. HERO STATE (Text) */}
                 <div ref={textRef} className="absolute z-20 pointer-events-none will-change-transform flex flex-col items-center justify-center w-full px-4 text-center">
-                    <h2 className="flex flex-col items-center justify-center select-none pointer-events-none w-full m-0">
-                        <span className="text-[22vw] sm:text-[18vw] md:text-[16vw] lg:text-[17vw] font-display font-black uppercase tracking-tighter leading-none text-center text-[var(--text-primary)] opacity-30 dark:opacity-10 transition-all duration-300">
+                    <h2 className="flex flex-col items-center justify-center select-none pointer-events-none w-full m-0 tracking-tighter leading-[0.85]">
+                        <span className="text-[22vw] sm:text-[20vw] font-display font-black uppercase text-center text-[var(--text-primary)] opacity-30 dark:opacity-10 transition-all duration-300">
                             AI
                         </span>
-                        <span className="text-[22vw] sm:text-[18vw] md:text-[16vw] lg:text-[17vw] font-display font-black uppercase tracking-tighter leading-none text-center text-[var(--text-primary)] opacity-30 dark:opacity-10 transition-all duration-300 mt-[-2vw]">
-                            Products
+                        <span className="text-[22vw] sm:text-[18vw] font-display font-black uppercase text-center text-[var(--text-primary)] opacity-30 dark:opacity-10 transition-all duration-300">
+                            EXPERIMENTS
                         </span>
                     </h2>
                 </div>
 
-                <div ref={desktopGridRef} className="absolute inset-x-0 top-1/2 -translate-y-1/2 z-10 px-8 lg:px-16 max-w-7xl mx-auto flex items-center justify-center">
-                    <div className="grid grid-cols-4 sm:grid-cols-8 md:grid-cols-12 gap-5 md:gap-6 w-full pointer-events-none" style={{ gridAutoRows: 'calc((100svh - 6rem) / 6)' }}>
+                {/* 2. TRANSITION STATE (Bento Grid) */}
+                <div ref={desktopGridRef} className="absolute inset-x-0 top-1/2 -translate-y-1/2 z-10 px-8 lg:px-16 max-w-7xl mx-auto flex flex-col items-center justify-center">
+                    <div
+                        className="grid grid-cols-4 sm:grid-cols-8 md:grid-cols-12 gap-5 md:gap-6 w-full pointer-events-none"
+                        style={{ gridAutoRows: 'calc((100svh - 6rem) / 6)' }}
+                    >
                         {labProjects.map((project, i) => (
                             <div
                                 key={i}
                                 ref={(el: HTMLDivElement | null) => { wrapperRefs.current[i] = el; }}
-                                className={`bento-card p-6 md:p-8 flex flex-col justify-between relative group h-full w-full block will-change-transform pointer-events-auto backdrop-blur-xl shadow-[0_20px_60px_rgba(0,0,0,0.08)] !bg-white/60 border border-gray-100 dark:border-white/5 dark:!bg-black/40 rounded-3xl ${project.dark ? "!bg-obsidian/70 dark:!bg-obsidian/70 !border-white/10" : ""} ${project.span}`}
+                                className={`bento-card p-6 md:p-8 flex flex-col justify-between overflow-hidden relative group h-full w-full block will-change-transform pointer-events-auto backdrop-blur-xl shadow-[0_20px_60px_rgba(0,0,0,0.08)] !bg-white/60 border border-gray-100 dark:border-white/5 dark:!bg-black/40 rounded-3xl ${project.dark ? "!bg-obsidian/70 dark:!bg-obsidian/70 !border-white/10" : ""} ${project.span}`}
                             >
                                 {renderCardContent(project)}
                             </div>
@@ -438,42 +487,50 @@ export default function AILabSection() {
                 </div>
             </div>
 
-            {/* MOBILE VIEW */}
+            {/* ========================================================
+                MOBILE VIEW (Pinned Scrub Journey)
+            ======================================================== */}
             <div ref={mobileContainerRef} className="flex md:hidden min-h-[100vh] py-16 w-full relative items-center justify-center flex-col px-4">
-                <div ref={mobileTextRef} className="absolute inset-x-0 top-[45%] -translate-y-1/2 flex flex-col items-center justify-center text-center z-20 pointer-events-none will-change-transform">
-                    <h2 className="flex flex-col items-center justify-center select-none pointer-events-none w-full m-0">
-                        <span className="text-[25vw] font-display font-black uppercase tracking-tighter leading-none text-[var(--text-primary)] opacity-30 dark:opacity-10">
+
+                {/* Mobile Text (Hero) */}
+                <div ref={mobileTextRef} className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex flex-col items-center justify-center text-center z-20 pointer-events-none will-change-transform">
+                    <h2 className="flex flex-col items-center justify-center select-none pointer-events-none w-full m-0 tracking-tighter leading-[0.85]">
+                        <span className="text-[28vw] font-display font-black uppercase text-center text-[var(--text-primary)] opacity-30 dark:opacity-10 transition-all duration-300">
                             AI
                         </span>
-                        <span className="text-[20vw] font-display font-black uppercase tracking-tighter leading-none text-[var(--text-primary)] opacity-30 dark:opacity-10">
-                            Products
+                        <span className="text-[20vw] font-display font-black uppercase text-center text-[var(--text-primary)] opacity-30 dark:opacity-10 transition-all duration-300">
+                            EXPERIMENTS
                         </span>
                     </h2>
                 </div>
 
-                <div className="absolute top-[45%] left-0 right-0 z-10 -translate-y-1/2 px-4 pointer-events-none">
-                    <div ref={mobileGridRef} className="grid grid-cols-4 sm:grid-cols-8 md:grid-cols-12 gap-4 auto-rows-[140px] w-full pointer-events-auto will-change-transform">
-                        {labProjects.map((project, i) => (
-                            <div
-                                key={`mobile-${i}`}
-                                className={`bento-card p-5 flex flex-col justify-between relative group h-full w-full block backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.05)] !bg-white/60 border border-gray-100 dark:border-white/5 dark:!bg-black/40 rounded-2xl ${project.dark ? "!bg-obsidian/70 dark:!bg-obsidian/70 !border-white/10" : ""} ${project.span.replace(/row-span-\d+/, 'row-span-2')}`}
-                            >
-                                {renderCardContent(project)}
-                            </div>
-                        ))}
-                    </div>
+                {/* Mobile Grid Container */}
+                <div className="absolute top-[15vh] left-0 right-0 z-10 px-4 pointer-events-none pb-[25vh]">
+                    <div ref={mobileGridRef} className="flex flex-col items-center w-full pointer-events-auto will-change-transform">
+                        <div className="grid grid-cols-4 sm:grid-cols-8 md:grid-cols-12 gap-4 md:gap-5 auto-rows-[110px] w-full">
+                            {labProjects.map((project, i) => (
+                                <div
+                                    key={`mobile-${i}`}
+                                    className={`bento-card p-4 flex flex-col justify-between overflow-hidden relative group h-full w-full block backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.05)] !bg-white/60 border border-gray-100 dark:border-white/5 dark:!bg-black/40 rounded-2xl ${project.dark ? "!bg-obsidian/70 dark:!bg-obsidian/70 !border-white/10" : ""} ${project.span.replace(/row-span-\d+/, 'row-span-2')}`}
+                                >
+                                    {renderCardContent(project)}
+                                </div>
+                            ))}
+                        </div>
 
-                    <div className="flex justify-center mt-8 mb-16 pointer-events-auto">
-                        <Link
-                            ref={mobileFabRef}
-                            href="#"
-                            className="md:hidden flex items-center gap-4 backdrop-blur-md bg-[#f2690d] hover:bg-black/80 text-black hover:text-white pl-8 pr-2.5 py-2.5 rounded-full font-bold shadow-[0_10px_40px_rgba(242,105,13,0.4)] hover:shadow-[0_10px_40px_rgba(0,0,0,0.4)] transition-all duration-300 group"
-                        >
-                            <span className="uppercase tracking-[0.2em] font-semibold text-[10px] relative z-10">Explore All</span>
-                            <span className="relative z-10 flex items-center justify-center w-10 h-10 rounded-full bg-white group-hover:bg-white/20 transition-colors duration-300">
-                                <FlaskConical className="w-5 h-5 text-[#f2690d] group-hover:text-white transition-colors duration-300 flask-hover-wobble" />
-                            </span>
-                        </Link>
+                        {/* Mobile FAB */}
+                        <div className="flex justify-center mt-12 mb-20 md:hidden pointer-events-auto">
+                            <Link
+                                ref={mobileFabRef}
+                                href="#"
+                                className="flex items-center gap-4 backdrop-blur-md bg-[#f2690d] hover:bg-black/80 text-black hover:text-white pl-8 pr-2.5 py-2.5 rounded-full font-bold shadow-[0_10px_40px_rgba(242,105,13,0.4)] hover:shadow-[0_10px_40px_rgba(0,0,0,0.4)] transition-all duration-300 group"
+                            >
+                                <span className="uppercase tracking-[0.2em] font-semibold text-[10px] relative z-10">Explore All</span>
+                                <span className="relative z-10 flex items-center justify-center w-10 h-10 rounded-full bg-white group-hover:bg-white/20 transition-colors duration-300">
+                                    <FlaskConical className="w-5 h-5 text-[#f2690d] group-hover:text-white transition-colors duration-300 flask-hover-wobble" />
+                                </span>
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -489,6 +546,7 @@ export default function AILabSection() {
                     <FlaskConical className="w-5 h-5 text-[#f2690d] group-hover:text-white transition-colors duration-300 flask-hover-wobble" />
                 </span>
             </Link>
+
         </section>
     );
 }
