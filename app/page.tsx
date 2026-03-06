@@ -26,7 +26,7 @@ export default function Home() {
             <Hero />
 
             {/* 2. Social proof — logos build credibility immediately */}
-            {/* <CompanyLogos /> */}
+            <CompanyLogos />
 
             {/* 3. PM Toolkit — tools I ship with */}
             <PMToolkit />

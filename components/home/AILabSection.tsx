@@ -160,7 +160,7 @@ export default function AILabSection() {
         let mm = gsap.matchMedia();
 
         // ------------------------ DESKTOP ANIMATION ------------------------
-        mm.add("(min-width: 768px)", () => {
+        mm.add("(min-width: 1200px)", () => {
             if (!desktopGridRef.current || !textRef.current || !desktopContainerRef.current) return;
 
             gsap.set(desktopGridRef.current, { yPercent: -50, autoAlpha: 1 });
@@ -254,7 +254,7 @@ export default function AILabSection() {
         });
 
         // ------------------------ MOBILE ANIMATION ------------------------
-        mm.add("(max-width: 767px)", () => {
+        mm.add("(max-width: 1199px)", () => {
             if (!mobileTextRef.current || !mobileGridRef.current || !mobileContainerRef.current) return;
 
             const mobileCards = mobileGridRef.current.children;
