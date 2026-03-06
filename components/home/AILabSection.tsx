@@ -257,19 +257,37 @@ export default function AILabSection() {
         mm.add("(max-width: 1199px)", () => {
             if (!mobileTextRef.current || !mobileGridRef.current || !mobileContainerRef.current) return;
 
-            const mobileCards = mobileGridRef.current.children;
+            // Target only the actual card elements inside the grid (skip the FAB wrapper)
+            const gridEl = mobileGridRef.current.querySelector('.grid');
+            const mobileCards = gridEl ? Array.from(gridEl.children) : Array.from(mobileGridRef.current.children);
+
+            // Mobile scatter positions — scaled-down version of desktop 3D scatter for 9 cards
+            const mobileScatter = [
+                { x: -30, y: -25, rot: -8, rotX: 6, rotY: -12, scale: 1.3 },
+                { x: 15, y: -35, rot: 4, rotX: -10, rotY: 8, scale: 1.15 },
+                { x: 30, y: -20, rot: 10, rotX: 12, rotY: 10, scale: 1.35 },
+                { x: -25, y: 10, rot: -12, rotX: -6, rotY: -8, scale: 1.2 },
+                { x: 20, y: 25, rot: 6, rotX: 8, rotY: -6, scale: 1.25 },
+                { x: -35, y: -15, rot: -10, rotX: 8, rotY: -10, scale: 1.3 },
+                { x: 0, y: -30, rot: 3, rotX: -8, rotY: 5, scale: 1.4 },
+                { x: 25, y: 15, rot: 8, rotX: 6, rotY: 8, scale: 1.2 },
+                { x: -20, y: 30, rot: -6, rotX: -5, rotY: -6, scale: 1.15 },
+            ];
 
             gsap.set(mobileTextRef.current, { opacity: 1, y: 0, filter: "blur(0px)", scale: 1 });
             gsap.set(mobileGridRef.current, { opacity: 1, y: 0 });
 
-            Array.from(mobileCards).forEach((card, i) => {
-                const isLeft = i % 2 === 0;
+            mobileCards.forEach((card, i) => {
+                const scatter = mobileScatter[i % mobileScatter.length];
                 gsap.set(card, {
-                    x: isLeft ? -40 : 40,
-                    y: 80,
-                    rotation: isLeft ? -15 : 15,
+                    x: `${scatter.x}vw`,
+                    y: `${scatter.y}vh`,
+                    rotation: scatter.rot,
+                    rotationX: scatter.rotX,
+                    rotationY: scatter.rotY,
+                    z: -200,
                     opacity: 0,
-                    scale: 1.3,
+                    scale: scatter.scale,
                     transformPerspective: 800,
                 });
             });
@@ -278,39 +296,43 @@ export default function AILabSection() {
                 scrollTrigger: {
                     trigger: sectionRef.current,
                     start: "top top",
-                    end: "+=100%",
+                    end: "+=150%",
                     scrub: 0.5,
                     pin: true,
                     anticipatePin: 1
                 },
             });
 
+            // Phase 1: Text Out
             tl.to(mobileTextRef.current, {
                 y: "-15vh",
                 opacity: 0,
-                scale: 1.2,
-                letterSpacing: "0.2em",
+                scale: 1.5,
+                letterSpacing: "0.3em",
                 duration: 2,
                 ease: "power2.inOut"
             }, 0);
 
-            Array.from(mobileCards).forEach((card, i) => {
+            // Phase 1: Cards fly in from 3D scatter
+            mobileCards.forEach((card, i) => {
                 tl.to(card, {
                     x: 0,
                     y: 0,
                     rotation: 0,
+                    rotationX: 0,
+                    rotationY: 0,
+                    z: 0,
                     opacity: 1,
                     scale: 1,
                     duration: 2.5,
-                    delay: i * 0.15,
-                    ease: "back.out(1.2)"
-                }, 0);
+                    ease: "back.out(1.2)",
+                }, i * 0.1);
             });
 
-            // Mobile DRIFT
+            // Phase 2: Grid drift
             const mobileGridHeight = mobileGridRef.current ? mobileGridRef.current.offsetHeight : window.innerHeight;
             const mobileWindowHeight = window.innerHeight;
-            const yOffsetMobile = Math.min(0, 0.85 * mobileWindowHeight - mobileGridHeight - 40);
+            const yOffsetMobile = Math.min(0, mobileWindowHeight / 2 - mobileGridHeight / 2 - 60);
 
             tl.to(mobileGridRef.current, {
                 y: yOffsetMobile,
@@ -318,9 +340,9 @@ export default function AILabSection() {
                 ease: "none"
             }, 2.5);
 
-            // MOBILE FAB
+            // Phase 2: FAB ANIMATION
             if (mobileFabRef.current) {
-                gsap.set(mobileFabRef.current, { y: 30, opacity: 0, scale: 0.8, pointerEvents: "none" });
+                gsap.set(mobileFabRef.current, { y: 50, opacity: 0, scale: 0.8, pointerEvents: "none" });
 
                 tl.to(mobileFabRef.current, {
                     y: 0,
@@ -330,6 +352,12 @@ export default function AILabSection() {
                     duration: 1,
                     ease: "back.out(1.5)",
                 }, 1.5);
+
+                tl.to(mobileFabRef.current, {
+                    y: "-=2vh",
+                    duration: 9,
+                    ease: "none"
+                }, 2.5);
             }
         });
 
