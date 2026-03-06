@@ -92,7 +92,7 @@ export default function WorkHighlights() {
         mm.add("(min-width: 768px)", () => {
             if (!desktopGridRef.current || !textRef.current || !desktopContainerRef.current) return;
 
-            gsap.set(desktopGridRef.current, { autoAlpha: 1 });
+            gsap.set(desktopGridRef.current, { yPercent: -50, autoAlpha: 1 });
             gsap.set(textRef.current, { scale: 1, opacity: 1, y: "0vh", filter: "blur(0px)" });
 
             wrapperRefs.current.forEach((wrapper, i) => {
@@ -106,7 +106,6 @@ export default function WorkHighlights() {
                         z: -400,
                         opacity: 0,
                         scale: desktopScatterPos[i].scale,
-                        filter: "blur(20px)",
                         transformPerspective: 1000,
                     });
                 }
@@ -116,8 +115,8 @@ export default function WorkHighlights() {
                 scrollTrigger: {
                     trigger: sectionRef.current,
                     start: "top top",
-                    end: "+=500%",
-                    scrub: 1,
+                    end: "+=150%", // Adjusted from 250% matching timeline duration
+                    scrub: 0.5, // Even snappier scrub
                     pin: true,
                     anticipatePin: 1,
                 },
@@ -129,7 +128,6 @@ export default function WorkHighlights() {
                 opacity: 0,
                 scale: 1.5,
                 letterSpacing: "0.5em",
-                filter: "blur(16px)",
                 duration: 2,
                 ease: "power2.inOut"
             }, 0);
@@ -146,7 +144,6 @@ export default function WorkHighlights() {
                         z: 0,
                         opacity: 1,
                         scale: 1,
-                        filter: "blur(0px)",
                         duration: 2.5,
                         ease: "back.out(1.2)",
                     }, i * 0.1);
@@ -154,11 +151,11 @@ export default function WorkHighlights() {
             });
 
             // Phase 2: MASSIVE HOLD WITH DRIFT
-            // Calculate actual overflow so grid scrolls all the way to the bottom to reveal the FAB cleanly
-            const gridHeight = desktopGridRef.current.offsetHeight;
-            const windowHeight = window.innerHeight;
-            const yOffset = gridHeight > windowHeight * 0.7 ? -(gridHeight - windowHeight + 200) : -200;
+            // Calculate how much we need to scroll the grid if it's taller than the viewport
+            const gridHeight = desktopGridRef.current ? desktopGridRef.current.offsetHeight : window.innerHeight;
+            const yOffset = Math.min(0, window.innerHeight / 2 - gridHeight / 2 - 80);
 
+            // Phase 2: hold 
             tl.to(desktopGridRef.current, {
                 y: yOffset,
                 duration: 9,
@@ -184,25 +181,6 @@ export default function WorkHighlights() {
                     ease: "none"
                 }, 2.5);
             }
-
-            // Phase 3: Fade out and scale down section to transition smoothly into the next
-            tl.to(desktopContainerRef.current, {
-                opacity: 0,
-                scale: 0.95,
-                filter: "blur(10px)",
-                duration: 4,
-                ease: "power2.inOut"
-            }, "-=4");
-
-            if (fabRef.current) {
-                tl.to(fabRef.current, {
-                    opacity: 0,
-                    scale: 0.8,
-                    duration: 4,
-                    ease: "power2.inOut",
-                    pointerEvents: "none"
-                }, "-=4");
-            }
         });
 
         // ------------------------ MOBILE ANIMATION ------------------------
@@ -222,7 +200,6 @@ export default function WorkHighlights() {
                     rotation: isLeft ? -15 : 15,
                     opacity: 0,
                     scale: 1.3,
-                    filter: "blur(15px)",
                     transformPerspective: 800,
                 });
             });
@@ -231,8 +208,8 @@ export default function WorkHighlights() {
                 scrollTrigger: {
                     trigger: sectionRef.current,
                     start: "top top",
-                    end: "+=120%",
-                    scrub: 1,
+                    end: "+=70%", // Adjusted from 100%
+                    scrub: 0.5,
                     pin: true,
                     anticipatePin: 1
                 },
@@ -243,7 +220,6 @@ export default function WorkHighlights() {
                 opacity: 0,
                 scale: 1.2,
                 letterSpacing: "0.2em",
-                filter: "blur(12px)",
                 duration: 2,
                 ease: "power2.inOut"
             }, 0);
@@ -255,7 +231,6 @@ export default function WorkHighlights() {
                     rotation: 0,
                     opacity: 1,
                     scale: 1,
-                    filter: "blur(0px)",
                     duration: 2.5,
                     delay: i * 0.15,
                     ease: "back.out(1.2)"
@@ -263,10 +238,10 @@ export default function WorkHighlights() {
             });
 
             // HOLD FOR MOBILE WITH DRIFT
-            // Calculate actual overflow so the very long grid scrolls to its bottom
+            // Calculate actual overflow so the very long grid scrolls perfectly to its bottom
             const mobileGridHeight = mobileGridRef.current.offsetHeight;
             const mobileWindowHeight = window.innerHeight;
-            const yOffsetMobile = -(mobileGridHeight - mobileWindowHeight + 100);
+            const yOffsetMobile = Math.min(0, 0.85 * mobileWindowHeight - mobileGridHeight - 40);
 
             tl.to(mobileGridRef.current, {
                 y: yOffsetMobile,
@@ -287,15 +262,6 @@ export default function WorkHighlights() {
                     ease: "back.out(1.5)",
                 }, 1.5);
             }
-
-            // Phase 3: Fade out and scale down section to transition smoothly into the next
-            tl.to(mobileContainerRef.current, {
-                opacity: 0,
-                scale: 0.95,
-                filter: "blur(10px)",
-                duration: 4,
-                ease: "power2.inOut"
-            }, "-=4");
         });
 
         return () => mm.revert();
@@ -330,7 +296,7 @@ export default function WorkHighlights() {
                 </div>
 
                 {/* 2. TRANSITION STATE (Bento Grid) */}
-                <div ref={desktopGridRef} className="absolute inset-x-0 top-1/2 -translate-y-1/2 z-10 px-8 lg:px-16 max-w-7xl mx-auto flex flex-col items-center justify-center">
+                <div ref={desktopGridRef} className="absolute inset-x-0 top-1/2 z-10 px-8 lg:px-16 max-w-7xl mx-auto flex flex-col items-center justify-center">
                     <div
                         className="grid grid-cols-4 sm:grid-cols-8 md:grid-cols-12 gap-5 md:gap-6 w-full pointer-events-none"
                         style={{ gridAutoRows: 'calc((100svh - 6rem) / 6)' }}
@@ -340,8 +306,8 @@ export default function WorkHighlights() {
                                 key={i}
                                 href={`/work/${project.slug}`}
                                 ref={(el: HTMLAnchorElement | null) => { wrapperRefs.current[i] = el; }}
-                                className={`bento-card p-6 md:p-10 flex flex-col justify-between overflow-hidden relative group h-full w-full block will-change-transform pointer-events-auto shadow-[0_20px_60px_rgba(0,0,0,0.08)] bg-white border border-gray-100 dark:border-white/5 dark:bg-black ${project.dark
-                                    ? "!bg-obsidian dark:!bg-obsidian !border-white/10 !text-white"
+                                className={`bento-card p-6 md:p-10 flex flex-col justify-between overflow-hidden relative group h-full w-full block will-change-transform pointer-events-auto shadow-[0_20px_60px_rgba(0,0,0,0.08)] bg-white dark:bg-black border-transparent rounded-3xl ${project.dark
+                                    ? "!bg-obsidian dark:!bg-obsidian !text-white"
                                     : ""
                                     } ${project.span}`}
                             >
@@ -468,8 +434,8 @@ export default function WorkHighlights() {
                                 <Link
                                     key={`mobile-${i}`}
                                     href={`/work/${project.slug}`}
-                                    className={`bento-card p-4 flex flex-col justify-between overflow-hidden relative group h-full w-full block shadow-[0_10px_30px_rgba(0,0,0,0.05)] bg-white border border-gray-100 dark:border-white/5 dark:bg-black ${project.dark
-                                        ? "!bg-obsidian dark:!bg-obsidian !border-white/10 !text-white"
+                                    className={`bento-card p-4 flex flex-col justify-between overflow-hidden relative group h-full w-full block shadow-[0_10px_30px_rgba(0,0,0,0.05)] bg-white dark:bg-black border-transparent rounded-2xl ${project.dark
+                                        ? "!bg-obsidian dark:!bg-obsidian !text-white"
                                         : ""
                                         } ${project.span}`}
                                 >
