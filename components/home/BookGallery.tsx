@@ -43,10 +43,10 @@ export default function BookGallery() {
             <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden perspective-container">
                 {/* Background Typography */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center select-none pointer-events-none z-0">
-                    <span className="text-[16vw] sm:text-[14vw] md:text-[12vw] lg:text-[11vw] font-display font-black uppercase tracking-tighter leading-none text-center text-[var(--text-primary)] opacity-[0.12] dark:opacity-[0.06] transition-all duration-300">
+                    <span className="text-[24vw] sm:text-[20vw] md:text-[16vw] lg:text-[14vw] font-display font-black uppercase tracking-tighter leading-none text-center text-[var(--text-primary)] opacity-[0.12] dark:opacity-[0.06] transition-all duration-300">
                         Book
                     </span>
-                    <span className="text-[16vw] sm:text-[14vw] md:text-[12vw] lg:text-[11vw] font-display font-black uppercase tracking-tighter leading-none text-center text-[var(--text-primary)] opacity-[0.12] dark:opacity-[0.06] transition-all duration-300">
+                    <span className="text-[24vw] sm:text-[20vw] md:text-[16vw] lg:text-[14vw] font-display font-black uppercase tracking-tighter leading-none text-center text-[var(--text-primary)] opacity-[0.12] dark:opacity-[0.06] transition-all duration-300">
                         Gallery
                     </span>
                 </div>
